@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'components/login_form.dart';
 import 'components/registration_form.dart';
@@ -19,7 +18,6 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([]);
 
     animationController =
         AnimationController(vsync: this, duration: animationDuration);
@@ -41,40 +39,6 @@ class _LoginScreenState extends State<LoginScreen>
         Tween<double>(begin: size.height * 0.1, end: defaultRegisterSize)
             .animate(CurvedAnimation(
                 parent: animationController!, curve: Curves.linear));
-
-    Widget buildRegisterContainer() {
-      return Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          alignment: Alignment.center,
-          width: double.infinity,
-          height: containerSize!.value,
-          decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(100),
-                topRight: Radius.circular(100),
-              )),
-          child: GestureDetector(
-            onVerticalDragStart: (_) {
-              animationController!.forward();
-              setState(() {
-                _isLogin = false;
-              });
-            },
-            child: _isLogin
-                ? Text(
-                    "Don't have an account? Sign up",
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 18,
-                    ),
-                  )
-                : RegistrationForm(),
-          ),
-        ),
-      );
-    }
 
     return SafeArea(
       child: Scaffold(
@@ -105,39 +69,6 @@ class _LoginScreenState extends State<LoginScreen>
                 ),
               )),
 
-          Positioned(
-              bottom: -50,
-              left: -70,
-              child: Container(
-                width: 250,
-                height: 250,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(125),
-                  color: Colors.lime.withAlpha(90),
-                ),
-              )),
-
-          // cancel button
-          if (!_isLogin)
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                width: size.width,
-                height: size.height * 0.1,
-                alignment: Alignment.bottomCenter,
-                child: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    animationController!.reverse();
-                    setState(() {
-                      _isLogin = true;
-                    });
-                  },
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-            ),
-
           // login form
           const LoginForm(),
 
@@ -155,6 +86,67 @@ class _LoginScreenState extends State<LoginScreen>
               })
         ],
       )),
+    );
+  }
+
+  Widget buildRegisterContainer() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // cancel button
+          if (!_isLogin)
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: 50,
+                height: 50,
+                alignment: Alignment.bottomCenter,
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    animationController!.reverse();
+                    setState(() {
+                      _isLogin = true;
+                    });
+                  },
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+          Flexible(
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: containerSize!.value,
+              decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(100),
+                    topRight: Radius.circular(100),
+                  )),
+              child: GestureDetector(
+                onVerticalDragStart: (_) {
+                  animationController!.forward();
+                  setState(() {
+                    _isLogin = false;
+                  });
+                },
+                child: _isLogin
+                    ? Text(
+                        "Don't have an account? Sign up",
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 18,
+                        ),
+                      )
+                    : RegistrationForm(),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
