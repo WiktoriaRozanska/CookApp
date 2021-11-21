@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.teal,
+        accentColor: Colors.limeAccent,
         textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
       ),
       home: LoginScreen(),
