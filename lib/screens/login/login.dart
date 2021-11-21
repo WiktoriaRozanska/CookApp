@@ -1,9 +1,5 @@
-import 'package:cook_app/components/buttons/rounded_button.dart';
-import 'package:cook_app/components/inputs/rounded_input.dart';
-import 'package:cook_app/components/inputs/rounded_password_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'components/login_form.dart';
 import 'components/registration_form.dart';
