@@ -84,6 +84,31 @@ class _LoginScreenState extends State<LoginScreen>
       child: Scaffold(
           body: Stack(
         children: [
+          // decoration
+          Positioned(
+              top: 90,
+              right: -50,
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: Colors.lime.withAlpha(90),
+                ),
+              )),
+
+          Positioned(
+              top: -50,
+              left: -50,
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Colors.lime.withAlpha(90),
+                ),
+              )),
+
           // cancel button
           if (!_isLogin)
             Align(
