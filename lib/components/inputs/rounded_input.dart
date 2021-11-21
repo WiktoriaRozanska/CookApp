@@ -8,7 +8,6 @@ class RoundedInput extends StatelessWidget {
     required this.label,
   }) : super(key: key);
 
-
   final IconData iconData;
   final String label;
 
