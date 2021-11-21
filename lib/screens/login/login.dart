@@ -109,6 +109,18 @@ class _LoginScreenState extends State<LoginScreen>
                 ),
               )),
 
+          Positioned(
+              bottom: -50,
+              left: -70,
+              child: Container(
+                width: 250,
+                height: 250,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(125),
+                  color: Colors.lime.withAlpha(90),
+                ),
+              )),
+
           // cancel button
           if (!_isLogin)
             Align(
