@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  const RoundedButton({
+  VoidCallback? onTap;
+
+  RoundedButton({
     Key? key,
+    this.onTap,
     required this.label,
   }) : super(key: key);
 
@@ -11,17 +14,15 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    
+
     return InkWell(
-      onTap: (){
-        print('TAP!');
-      },
+      onTap: onTap,
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        width: size.width*0.8,
+        width: size.width * 0.8,
         decoration: BoxDecoration(
-         borderRadius: BorderRadius.circular(20), 
-         color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).primaryColor,
         ),
         padding: EdgeInsets.symmetric(vertical: 10),
         alignment: Alignment.center,

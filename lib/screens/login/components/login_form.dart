@@ -3,11 +3,34 @@ import 'package:cook_app/components/inputs/rounded_input.dart';
 import 'package:cook_app/components/inputs/rounded_password_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/auth.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> login() async {
+    print('login');
+    await Provider.of<Auth>(context, listen: false)
+        .login(_emailController.value.text, _passwordController.value.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +67,18 @@ class LoginForm extends StatelessWidget {
                 height: 40,
               ),
               RoundedInput(
-                  iconData: Icons.email_outlined, label: 'Username or email'),
+                iconData: Icons.email_outlined,
+                label: 'Email',
+                textEditingController: _emailController,
+              ),
               RoundedPasswordInput(
                 label: 'Password',
+                textEditingController: _passwordController,
               ),
-              RoundedButton(label: 'Log in'),
+              RoundedButton(
+                label: 'Log in',
+                onTap: login,
+              ),
             ],
           ),
         ),
