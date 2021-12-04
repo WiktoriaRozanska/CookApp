@@ -19,50 +19,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-        barrierColor: Colors.grey.withAlpha(80),
-        context: context,
-        builder: (ctx) => AlertDialog(
-              title: Text('An Error Occured!'),
-              content: Text(message),
-              actions: [
-                FlatButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                    child: Text('Okay'))
-              ],
-            ));
-  }
-
-  Future<void> login() async {
-    try {
-      await Provider.of<Auth>(context, listen: false)
-          .login(_emailController.value.text, _passwordController.value.text);
-    } on HttpException catch (error) {
-      // TODO
-      var errorMessage = 'Authentication failed\n';
-      print('Error->' + error.errors.toString());
-      if (error.errors['error'] != null) {
-        errorMessage += error.errors['error'];
-      }
-      _showErrorDialog(errorMessage);
-    } catch (error) {
-      print('Error->' + error.toString());
-      var errorMessage =
-          'Could not authentication you. Please try again later.';
-      _showErrorDialog(errorMessage);
-    }
-  }
+  var _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -107,14 +64,70 @@ class _LoginFormState extends State<LoginForm> {
                 label: 'Password',
                 textEditingController: _passwordController,
               ),
-              RoundedButton(
-                label: 'Log in',
-                onTap: login,
-              ),
+              if (_isLoading)
+                CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                )
+              else
+                RoundedButton(
+                  label: 'Log in',
+                  onTap: login,
+                ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+        barrierColor: Colors.grey.withAlpha(80),
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: Text('An Error Occured!'),
+              content: Text(message),
+              actions: [
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Okay'))
+              ],
+            ));
+  }
+
+  Future<void> login() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await Provider.of<Auth>(context, listen: false)
+          .login(_emailController.value.text, _passwordController.value.text);
+    } on HttpException catch (error) {
+      // TODO
+      var errorMessage = 'Authentication failed\n';
+      print('Error->' + error.errors.toString());
+      if (error.errors['error'] != null) {
+        errorMessage += error.errors['error'];
+      }
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      print('Error->' + error.toString());
+      var errorMessage =
+          'Could not authentication you. Please try again later.';
+      _showErrorDialog(errorMessage);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
