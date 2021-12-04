@@ -2,6 +2,7 @@ import 'package:cook_app/components/buttons/rounded_button.dart';
 import 'package:cook_app/components/inputs/rounded_input.dart';
 import 'package:cook_app/components/inputs/rounded_password_input.dart';
 import 'package:cook_app/models/http_exception.dart';
+import 'package:cook_app/screens/recepies/recepies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -112,15 +113,14 @@ class _LoginFormState extends State<LoginForm> {
       await Provider.of<Auth>(context, listen: false)
           .login(_emailController.value.text, _passwordController.value.text);
     } on HttpException catch (error) {
-      // TODO
       var errorMessage = 'Authentication failed\n';
-      print('Error->' + error.errors.toString());
+      print('Error1->' + error.errors.toString());
       if (error.errors['error'] != null) {
         errorMessage += error.errors['error'];
       }
       _showErrorDialog(errorMessage);
     } catch (error) {
-      print('Error->' + error.toString());
+      print('Error2->' + error.toString());
       var errorMessage =
           'Could not authentication you. Please try again later.';
       _showErrorDialog(errorMessage);

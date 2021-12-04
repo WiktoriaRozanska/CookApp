@@ -4,6 +4,8 @@ import 'components/login_form.dart';
 import 'components/registration_form.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/login';
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -14,20 +16,6 @@ class _LoginScreenState extends State<LoginScreen>
   Animation<double>? containerSize;
   AnimationController? animationController;
   Duration animationDuration = const Duration(milliseconds: 270);
-
-  @override
-  void initState() {
-    super.initState();
-
-    animationController =
-        AnimationController(vsync: this, duration: animationDuration);
-  }
-
-  @override
-  void dispose() {
-    animationController!.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,5 +136,19 @@ class _LoginScreenState extends State<LoginScreen>
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    animationController =
+        AnimationController(vsync: this, duration: animationDuration);
+  }
+
+  @override
+  void dispose() {
+    animationController!.dispose();
+    super.dispose();
   }
 }

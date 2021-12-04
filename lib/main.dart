@@ -1,4 +1,5 @@
 import 'package:cook_app/providers/auth.dart';
+import 'package:cook_app/screens/recepies/recepies.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cook_app/screens/login/login.dart';
@@ -20,16 +21,26 @@ class MyApp extends StatelessWidget {
     ]);
 
     return MultiProvider(
-      providers: [ChangeNotifierProvider.value(value: Auth())],
-      child: MaterialApp(
-        title: 'CookApp',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: Colors.teal,
-          accentColor: Colors.limeAccent,
-          textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
+      providers: [
+        ChangeNotifierProvider.value(value: Auth()),
+        // ChangeNotifierProxyProvider<Auth, Products(to co Ty provajdujesz)>(
+        // update: (ctx, auth, previousProducts) => Products(auth.token))
+      ],
+      child: Consumer<Auth>(
+        builder: (ctx, authData, child) => MaterialApp(
+          title: 'CookApp',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primaryColor: Colors.teal,
+            accentColor: Colors.limeAccent,
+            textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
+          ),
+          home: authData.isAuth ? RecepiesScreen() : LoginScreen(),
+          routes: {
+            LoginScreen.routeName: (ctx) => LoginScreen(),
+            RecepiesScreen.routeName: (ctx) => RecepiesScreen(),
+          },
         ),
-        home: LoginScreen(),
       ),
     );
   }
