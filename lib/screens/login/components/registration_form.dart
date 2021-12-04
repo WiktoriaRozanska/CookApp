@@ -1,6 +1,8 @@
 import 'package:cook_app/components/buttons/rounded_button.dart';
 import 'package:cook_app/components/inputs/rounded_input.dart';
 import 'package:cook_app/components/inputs/rounded_password_input.dart';
+import 'package:cook_app/models/http_exception.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -27,19 +29,71 @@ class _RegistrationFormState extends State<RegistrationForm> {
     super.dispose();
   }
 
+  void _showErrorDialog(String message) {
+    showDialog(
+        barrierColor: Colors.grey.withAlpha(80),
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: Text('An Error Occured!'),
+              content: Text(message),
+              actions: [
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Okay'))
+              ],
+            ));
+  }
+
   Future<void> signup() async {
-    print(_usernameController.value.text);
-    print(_emailController.value.text);
-    print("TAAAAAAAAAAK");
-    await Provider.of<Auth>(context, listen: false).signup(
-        _emailController.value.text,
-        _usernameController.value.text,
-        _passwordController.value.text,
-        _confirmPasswordController.value.text);
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text('Hello there'),
-      backgroundColor: Theme.of(context).primaryColor,
-    ));
+    // print(_usernameController.value.text);
+    // print(_emailController.value.text);
+    // print("TAAAAAAAAAAK");
+    // await Provider.of<Auth>(context, listen: false).signup(
+    //     _emailController.value.text,
+    //     _usernameController.value.text,
+    //     _passwordController.value.text,
+    //     _confirmPasswordController.value.text);
+    // Scaffold.of(context).showSnackBar(SnackBar(
+    //   content: Text('Hello there'),
+    //   backgroundColor: Theme.of(context).primaryColor,
+    // ));
+    print('Registration ');
+    try {
+      await Provider.of<Auth>(context, listen: false).signup(
+          _emailController.value.text,
+          _usernameController.value.text,
+          _passwordController.value.text,
+          _confirmPasswordController.value.text);
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: const Text('You was successful registered'),
+        backgroundColor: Theme.of(context).primaryColor,
+      ));
+
+      // TODO: loading page
+    } on HttpException catch (error) {
+      var errorMessage = 'Authentication failed\n';
+      if (error.errors['email'] != null) {
+        errorMessage += 'Email ' + error.errors['email']![0] + '\n';
+      }
+      if (error.errors['username'] != null) {
+        errorMessage += 'Username ' + error.errors['username']![0] + '\n';
+      }
+      if (error.errors['password'] != null) {
+        errorMessage += 'Password ' + error.errors['password']![0] + '\n';
+      }
+      if (error.errors['password_confirmation'] != null) {
+        errorMessage += 'Password confirmation ' +
+            error.errors['password_confirmation']![0] +
+            '\n';
+      }
+
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      var errorMessage = 'Could not registration you. Please try again later.';
+      _showErrorDialog(errorMessage);
+    }
   }
 
   @override

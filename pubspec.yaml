@@ -38,6 +38,7 @@ dependencies:
   flutter_svg: ^0.23.0+1
   http: ^0.13.4
   provider: ^6.0.1
+  email_validator: ^2.0.1
 
 dev_dependencies:
   flutter_test:

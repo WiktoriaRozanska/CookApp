@@ -1,6 +1,7 @@
 import 'package:cook_app/components/buttons/rounded_button.dart';
 import 'package:cook_app/components/inputs/rounded_input.dart';
 import 'package:cook_app/components/inputs/rounded_password_input.dart';
+import 'package:cook_app/models/http_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +27,41 @@ class _LoginFormState extends State<LoginForm> {
     super.dispose();
   }
 
+  void _showErrorDialog(String message) {
+    showDialog(
+        barrierColor: Colors.grey.withAlpha(80),
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: Text('An Error Occured!'),
+              content: Text(message),
+              actions: [
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Okay'))
+              ],
+            ));
+  }
+
   Future<void> login() async {
-    print('login');
-    await Provider.of<Auth>(context, listen: false)
-        .login(_emailController.value.text, _passwordController.value.text);
+    try {
+      await Provider.of<Auth>(context, listen: false)
+          .login(_emailController.value.text, _passwordController.value.text);
+    } on HttpException catch (error) {
+      // TODO
+      var errorMessage = 'Authentication failed\n';
+      print('Error->' + error.errors.toString());
+      if (error.errors['error'] != null) {
+        errorMessage += error.errors['error'];
+      }
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      print('Error->' + error.toString());
+      var errorMessage =
+          'Could not authentication you. Please try again later.';
+      _showErrorDialog(errorMessage);
+    }
   }
 
   @override
