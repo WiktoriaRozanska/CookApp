@@ -2,7 +2,7 @@ import 'package:cook_app/components/buttons/rounded_button.dart';
 import 'package:cook_app/components/inputs/rounded_input.dart';
 import 'package:cook_app/components/inputs/rounded_password_input.dart';
 import 'package:cook_app/models/http_exception.dart';
-import 'package:cook_app/screens/recepies/recepies.dart';
+import 'package:cook_app/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';

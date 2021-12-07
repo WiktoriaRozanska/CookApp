@@ -1,5 +1,7 @@
 import 'package:cook_app/providers/auth.dart';
-import 'package:cook_app/screens/recepies/recepies.dart';
+import 'package:cook_app/providers/recipe.dart';
+import 'package:cook_app/screens/home.dart';
+import 'package:cook_app/screens/recepies/ingredients/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cook_app/screens/login/login.dart';
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: Auth()),
+        ChangeNotifierProvider.value(value: Recipe()),
         // ChangeNotifierProxyProvider<Auth, Products(to co Ty provajdujesz)>(
         // update: (ctx, auth, previousProducts) => Products(auth.token))
       ],
@@ -34,11 +37,17 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.teal,
             accentColor: Colors.limeAccent,
             textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
+            iconTheme: const IconThemeData(color: Colors.white),
+            colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.teal),
+            // change the focus border color when the errorText is set
+            errorColor: Colors.purple,
           ),
-          home: authData.isAuth ? RecepiesScreen() : LoginScreen(),
+          // home: authData.isAuth ? HomeScreen() : LoginScreen(),
+          home: HomeScreen(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
-            RecepiesScreen.routeName: (ctx) => RecepiesScreen(),
+            HomeScreen.routeName: (ctx) => HomeScreen(),
+            IngredientScreen.routeName: (ctx) => IngredientScreen(),
           },
         ),
       ),
