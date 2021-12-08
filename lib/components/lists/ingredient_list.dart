@@ -29,14 +29,14 @@ class IngredientList extends StatelessWidget {
               child: FittedBox(
                 child: Text(
                   '${ingredients.indexOf(ingredient) + 1}',
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ),
             title: Text('${ingredient.name}'),
             subtitle: Text('${ingredient.quantity} ${units[ingredient.unit]}'),
           );
-        }).toList() as List<Widget>,
+        }).toList(),
       ),
     );
     // return ListView.builder(

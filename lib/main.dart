@@ -2,6 +2,7 @@ import 'package:cook_app/providers/auth.dart';
 import 'package:cook_app/providers/recipe.dart';
 import 'package:cook_app/screens/home.dart';
 import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
+import 'package:cook_app/screens/recepies/new_recipe/step.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cook_app/screens/login/login.dart';
@@ -48,7 +49,8 @@ class MyApp extends StatelessWidget {
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
             HomeScreen.routeName: (ctx) => HomeScreen(),
-            IngredientScreen.routeName: (ctx) => IngredientScreen(),
+            IngredientScreen.routeName: (ctx) => const IngredientScreen(),
+            StepScreen.routeName: (ctx) => const StepScreen(),
           },
         ),
       ),

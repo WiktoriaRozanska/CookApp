@@ -1,5 +1,7 @@
 import 'package:cook_app/components/lists/ingredient_list.dart';
+import 'package:cook_app/components/lists/step_list.dart';
 import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
+import 'package:cook_app/screens/recepies/new_recipe/step.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cook_app/providers/recipe.dart';
@@ -120,6 +122,20 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 19),
+              ),
+            ),
+            StepList(steps: _recipe.steps),
+            Padding(
+              padding: const EdgeInsets.only(left: 60, right: 60),
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(StepScreen.routeName);
+                },
+                child: const Text(
+                  'Add a new step',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Theme.of(context).primaryColor,
               ),
             ),
             const SizedBox(
