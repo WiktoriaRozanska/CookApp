@@ -92,18 +92,19 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                     fontSize: 19),
               ),
             ),
-            Container(
-                constraints: BoxConstraints(maxHeight: 100.0),
-                child: IngredientList(ingredients: _recipe.ingredients)),
-            RaisedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(IngredientScreen.routeName);
-              },
-              child: const Text(
-                'Add a new ingredient',
-                style: TextStyle(color: Colors.white),
+            IngredientList(ingredients: _recipe.ingredients),
+            Padding(
+              padding: const EdgeInsets.only(left: 60, right: 60),
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(IngredientScreen.routeName);
+                },
+                child: const Text(
+                  'Add a new ingredient',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Theme.of(context).primaryColor,
               ),
-              color: Theme.of(context).primaryColor,
             ),
             const SizedBox(
               height: 40,

@@ -68,6 +68,7 @@ flutter:
   assets:
     - assets/images/undraw_cooking_lyxy.svg
     - assets/images/undraw_cookie_love_ulvn.svg
+    - assets/images/undraw_diet_ghvw.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

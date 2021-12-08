@@ -1,32 +1,35 @@
-import 'package:cook_app/models/ingredient.dart';
+import 'package:cook_app/components/forms/new_ingredient_form.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:cook_app/providers/recipe.dart';
+import 'package:flutter_svg/svg.dart';
 
 class IngredientScreen extends StatelessWidget {
+  const IngredientScreen({Key? key}) : super(key: key);
+
   static const routeName = '/ingredient';
+
   @override
   Widget build(BuildContext context) {
-    final _recipe = Provider.of<Recipe>(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add ingredient'),
+        title: const Text('Add ingredient'),
       ),
-      body: Column(
-        children: [
-          RaisedButton(
-            onPressed: () {
-              _recipe.addIngredients(Ingredient(
-                  name: 'Name', quantity: 12.0, unit: Units.kilograms));
-            },
-            child: const Text(
-              'Add',
-              style: TextStyle(color: Colors.white),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Stack(
+          children: [
+            NewIngredientForm(),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: SvgPicture.asset(
+                'assets/images/undraw_diet_ghvw.svg',
+                width: 190,
+                height: 190,
+                fit: BoxFit.contain,
+              ),
             ),
-            color: Theme.of(context).primaryColor,
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

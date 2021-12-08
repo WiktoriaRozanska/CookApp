@@ -35,12 +35,13 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: Colors.teal,
+            primaryColorLight: const Color(0xff8CB7AE),
             accentColor: Colors.limeAccent,
             textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
             iconTheme: const IconThemeData(color: Colors.white),
             colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.teal),
             // change the focus border color when the errorText is set
-            errorColor: Colors.purple,
+            errorColor: Colors.teal,
           ),
           // home: authData.isAuth ? HomeScreen() : LoginScreen(),
           home: HomeScreen(),
