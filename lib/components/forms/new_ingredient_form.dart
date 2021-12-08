@@ -54,9 +54,10 @@ class _NewIngredientFormState extends State<NewIngredientForm> {
             },
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Container(
-                width: 200,
+              Flexible(
+                flex: 2,
                 child: TextFormField(
                     decoration: const InputDecoration(labelText: 'Quantity'),
                     textInputAction: TextInputAction.next,
@@ -69,25 +70,31 @@ class _NewIngredientFormState extends State<NewIngredientForm> {
                       return null;
                     }),
               ),
-              DropdownButton<Units>(
-                isDense: true,
-                value: dropdownValue,
-                icon: const Icon(Icons.arrow_downward_outlined),
-                onChanged: (Units? newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                  });
-                },
-                items: units.entries.map((entry) {
-                  return DropdownMenuItem<Units>(
-                    value: entry.key,
-                    child: Text(entry.value),
-                  );
-                }).toList(),
-              )
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: DropdownButton<Units>(
+                    isDense: true,
+                    value: dropdownValue,
+                    icon: const Icon(Icons.arrow_downward_outlined),
+                    onChanged: (Units? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                      });
+                    },
+                    items: units.entries.map((entry) {
+                      return DropdownMenuItem<Units>(
+                        value: entry.key,
+                        child: Text(entry.value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           ElevatedButton(

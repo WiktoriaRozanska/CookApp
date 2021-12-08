@@ -1,5 +1,5 @@
 import 'package:cook_app/components/lists/ingredient_list.dart';
-import 'package:cook_app/screens/recepies/ingredients/ingredient.dart';
+import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cook_app/providers/recipe.dart';
@@ -104,6 +104,22 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                   style: TextStyle(color: Colors.white),
                 ),
                 color: Theme.of(context).primaryColor,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: Divider(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: Text(
+                'Steps',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 19),
               ),
             ),
             const SizedBox(
