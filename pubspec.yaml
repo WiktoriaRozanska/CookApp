@@ -41,6 +41,7 @@ dependencies:
   email_validator: ^2.0.1
   jwt_decoder: ^2.0.1
   curved_navigation_bar: ^1.0.1
+  flutter_tags: "^1.0.0-nullsafety.1"
 
 dev_dependencies:
   flutter_test:
