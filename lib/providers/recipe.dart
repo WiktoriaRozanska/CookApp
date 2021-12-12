@@ -3,26 +3,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cook_app/models/ingredient.dart';
 import 'package:http/http.dart' as http;
-
-class RecipeItem {
-  String title;
-  String description;
-  List<Ingredient> ingredients;
-  List<String> steps;
-  List<String> tags;
-
-  RecipeItem({
-    required this.title,
-    required this.description,
-    required this.ingredients,
-    required this.steps,
-    required this.tags,
-  });
-}
+import '../models/recipe_item.dart';
 
 class Recipe with ChangeNotifier {
   RecipeItem _recipe = RecipeItem(
-      title: '', description: '', ingredients: [], steps: [], tags: []);
+      title: '',
+      description: '',
+      ingredients: [],
+      steps: [],
+      tags: [],
+      time: 0,
+      calPerServ: 0,
+      yields: 0);
 
   void addTitle(String title) {
     _recipe.title = title;
@@ -46,6 +38,18 @@ class Recipe with ChangeNotifier {
 
   void addTag(String tag) {
     _recipe.tags.add(tag);
+  }
+
+  void addTime(int time) {
+    _recipe.time = time;
+  }
+
+  void addCalPerServ(int calPerServ) {
+    _recipe.calPerServ = calPerServ;
+  }
+
+  void addYields(int yields) {
+    _recipe.yields = yields;
   }
 
   void removeTag(int index) {
@@ -80,7 +84,17 @@ class Recipe with ChangeNotifier {
     notifyListeners();
   }
 
-  void send() {
+  void send() async {
     print('will send to BE');
+    Map<String, dynamic> jsonRecipe = _recipe.toJson();
+    var url = Uri.parse('http://10.0.2.2:3000//v1/recipes');
+    final response = await http.post(url,
+        body: json.encode({'recipe': jsonRecipe}),
+        headers: {"Content-Type": "application/json"});
+
+    Map<String, dynamic> recipeMap = jsonDecode(response.body);
+    var newRecipe = RecipeItem.fromJson(recipeMap);
+    print(response.statusCode);
+    print(response.body);
   }
 }

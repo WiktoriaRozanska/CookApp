@@ -56,15 +56,6 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
           ),
         ],
       ),
-      // body: Padding(
-      //   padding: const EdgeInsets.all(16.0),
-      //   child: Center(
-      //     child: Form(
-      //       key: _form,
-      //       child: Text('Here will be form'),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
