@@ -18,10 +18,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
   void initState() {
     _tagsProvider = Provider.of<tags_provider.Tags>(context, listen: false);
     Future.delayed(Duration.zero).then((_) {
-      _tagsProvider!.fetchTags();
-    }).then((value) {
-      setState(() {
-        _isLoading = false;
+      _tagsProvider!.fetchTags().then((value) {
+        setState(() {
+          _isLoading = false;
+        });
       });
     });
     super.initState();
@@ -31,12 +31,19 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     final _tags = GlobalKey<TagsState>();
 
+    // return Scaffold(
+    //   body: Center(
+    //     child: Text('Dilters'),
+    //   ),
+    // );
+
     return _isLoading
         ? Scaffold(
             body: Center(
               child: CircularProgressIndicator(
                 color: Theme.of(context).primaryColor,
               ),
+              // child: Text('DUPA'),
             ),
           )
         : Scaffold(
@@ -52,13 +59,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   itemBuilder: (index) {
                     final currentTag = _tagsProvider!.allTags[index];
                     return ItemTags(
-                        key: Key(currentTag['id']!),
+                        key: Key(currentTag['id']!.toString()),
                         index: index,
                         title: currentTag['name']!,
                         activeColor: Theme.of(context).primaryColor,
                         combine: ItemTagsCombine.withTextAfter);
                   },
                 )),
+            // body: Center(
+            //   child: Text('JEDNOROZEC'),
+            // ),
           );
   }
 }
