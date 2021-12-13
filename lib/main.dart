@@ -1,6 +1,8 @@
 import 'package:cook_app/providers/auth.dart';
 import 'package:cook_app/providers/recipe.dart';
+import 'package:cook_app/providers/tags.dart';
 import 'package:cook_app/screens/home.dart';
+import 'package:cook_app/screens/recepies/filters.dart';
 import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
 import 'package:cook_app/screens/recepies/new_recipe/step.dart';
 import 'package:cook_app/screens/recepies/recipe.dart';
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: Auth()),
         ChangeNotifierProvider.value(value: Recipe()),
+        ChangeNotifierProvider.value(value: Tags()),
         // ChangeNotifierProxyProvider<Auth, Products(to co Ty provajdujesz)>(
         // update: (ctx, auth, previousProducts) => Products(auth.token))
       ],
@@ -55,6 +58,7 @@ class MyApp extends StatelessWidget {
             IngredientScreen.routeName: (ctx) => const IngredientScreen(),
             StepScreen.routeName: (ctx) => const StepScreen(),
             RecipeScreen.routeName: (ctx) => const RecipeScreen(),
+            FiltersScreen.routeName: (ctx) => FiltersScreen(),
           },
         ),
       ),

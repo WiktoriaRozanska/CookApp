@@ -3,8 +3,6 @@ import 'package:cook_app/components/lists/step_list.dart';
 import 'package:cook_app/models/recipe_item.dart';
 import 'package:cook_app/screens/home.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:cook_app/providers/recipe.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 
 class RecipeScreen extends StatefulWidget {

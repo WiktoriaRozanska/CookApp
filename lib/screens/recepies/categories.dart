@@ -1,3 +1,4 @@
+import 'package:cook_app/components/categories_drawer.dart';
 import 'package:cook_app/components/recipe/recipe_icon.dart';
 import 'package:cook_app/models/recipe_item.dart';
 import 'package:flutter/material.dart';
@@ -55,9 +56,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       appBar: AppBar(
         title: const Text('Recipes'),
       ),
-      // drawer: Drawer(
-      //   child: MainDrawer(),
-      // ),
+      endDrawer: const CategoriesDrawer(),
       body: PagedListView<int, RecipeItem>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<RecipeItem>(
