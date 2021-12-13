@@ -60,6 +60,37 @@ class _RecipeScreenState extends State<RecipeScreen> {
             ),
           ))
         : Scaffold(
+            bottomSheet: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    print('Click');
+                  },
+                  child: const Icon(
+                    Icons.favorite_border,
+                    color: Colors.white,
+                  ),
+                  // child: const Text(
+                  //   'Add to favorite',
+                  //   style: TextStyle(color: Colors.white),
+                  // ),
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                  ),
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    print('Click');
+                  },
+                  child: const Text(
+                    'Add to my menu',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  color: Theme.of(context).primaryColor,
+                )
+              ],
+            ),
             body: NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {

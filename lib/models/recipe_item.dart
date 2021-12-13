@@ -5,6 +5,7 @@ part 'recipe_item.g.dart';
 
 @JsonSerializable()
 class RecipeItem {
+  String? id;
   String title;
   String description;
   int time;
@@ -13,8 +14,10 @@ class RecipeItem {
   List<Ingredient> ingredients;
   List<String> steps;
   List<String> tags;
+  bool? isFavorite = false;
 
   RecipeItem({
+    this.id,
     required this.title,
     required this.description,
     required this.ingredients,

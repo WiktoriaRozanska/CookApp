@@ -116,4 +116,12 @@ class Recipe with ChangeNotifier {
     _recipe = RecipeItem.fromJson(recipeMap);
     return _recipe;
   }
+
+  // Future<List<RecipeItem>> fetchRecipes(int start_index, int size) async {
+  //   var url = Uri.parse('http://10.0.2.2:3000//v1/recipes');
+  //   final response =
+  //       await http.get(url, headers: {"Content-Type": "application/json"});
+
+  //   List<dynamic> recipeMap = jsonDecode(response.body);
+  // }
 }

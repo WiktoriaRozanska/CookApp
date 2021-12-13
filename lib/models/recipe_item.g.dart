@@ -7,6 +7,7 @@ part of 'recipe_item.dart';
 // **************************************************************************
 
 RecipeItem _$RecipeItemFromJson(Map<String, dynamic> json) => RecipeItem(
+      id: json['id'] as String?,
       title: json['title'] as String,
       description: json['description'] as String,
       ingredients: (json['ingredients'] as List<dynamic>)
@@ -21,10 +22,11 @@ RecipeItem _$RecipeItemFromJson(Map<String, dynamic> json) => RecipeItem(
       tags: (json['tags'] as List<dynamic>)
           .map((e) => e['name'] as String)
           .toList(),
-    );
+    )..isFavorite = json['isFavorite'] as bool?;
 
 Map<String, dynamic> _$RecipeItemToJson(RecipeItem instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'title': instance.title,
       'description': instance.description,
       'time': instance.time,
@@ -33,4 +35,5 @@ Map<String, dynamic> _$RecipeItemToJson(RecipeItem instance) =>
       'ingredients': instance.ingredients,
       'steps': instance.steps,
       'tags': instance.tags,
+      'isFavorite': instance.isFavorite,
     };
