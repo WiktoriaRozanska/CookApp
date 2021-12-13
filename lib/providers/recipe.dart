@@ -96,20 +96,21 @@ class Recipe with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> send() async {
+  Future<RecipeItem> send() async {
     print('will send to BE');
     Map<String, dynamic> jsonRecipe = _recipe.toJson();
-    var url = Uri.parse('http://10.0.2.2:3000//v1/recipes');
+    var url = Uri.parse('http://10.0.2.2:3000/v1/recipes');
     final response = await http.post(url,
         body: json.encode({'recipe': jsonRecipe}),
         headers: {"Content-Type": "application/json"});
 
     Map<String, dynamic> recipeMap = jsonDecode(response.body);
-    return recipeMap['id'];
+    clear();
+    return RecipeItem.fromJson(recipeMap);
   }
 
   Future<RecipeItem> fetchRecipe(String id) async {
-    var url = Uri.parse('http://10.0.2.2:3000//v1/recipes/${id}');
+    var url = Uri.parse('http://10.0.2.2:3000/v1/recipes/${id}');
     final response =
         await http.get(url, headers: {"Content-Type": "application/json"});
     Map<String, dynamic> recipeMap = jsonDecode(response.body);
@@ -117,11 +118,22 @@ class Recipe with ChangeNotifier {
     return _recipe;
   }
 
-  // Future<List<RecipeItem>> fetchRecipes(int start_index, int size) async {
-  //   var url = Uri.parse('http://10.0.2.2:3000//v1/recipes');
-  //   final response =
-  //       await http.get(url, headers: {"Content-Type": "application/json"});
+  Future<List<RecipeItem>> fetchRecipes(int startIndex, int size) async {
+    final qParameters = {
+      'startIndex': startIndex.toString(),
+      'size': size.toString()
+    };
+    var url = Uri.http('10.0.2.2:3000', '/v1/recipes', qParameters);
 
-  //   List<dynamic> recipeMap = jsonDecode(response.body);
-  // }
+    final response = await http.get(
+      url,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    List<dynamic> recipeList = jsonDecode(response.body);
+    List<RecipeItem> recipes = recipeList.map((recipe) {
+      return RecipeItem.fromJson(recipe);
+    }).toList();
+    return recipes;
+  }
 }

@@ -36,6 +36,8 @@ class MyApp extends StatelessWidget {
           title: 'CookApp',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            bottomSheetTheme:
+                BottomSheetThemeData(backgroundColor: Colors.transparent),
             primaryColor: Colors.teal,
             primaryColorLight: const Color(0xff8CB7AE),
             accentColor: Colors.limeAccent,

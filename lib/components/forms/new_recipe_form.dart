@@ -1,5 +1,6 @@
 import 'package:cook_app/components/lists/ingredient_list.dart';
 import 'package:cook_app/components/lists/step_list.dart';
+import 'package:cook_app/models/recipe_item.dart';
 import 'package:cook_app/screens/home.dart';
 import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
 import 'package:cook_app/screens/recepies/new_recipe/step.dart';
@@ -303,13 +304,14 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
       _isLoading = true;
     });
 
-    String recipeId = await Provider.of<Recipe>(context, listen: false).send();
+    RecipeItem recipe =
+        await Provider.of<Recipe>(context, listen: false).send();
 
     setState(() {
       _isLoading = false;
     });
 
     Navigator.of(context)
-        .popAndPushNamed(RecipeScreen.routeName, arguments: recipeId);
+        .popAndPushNamed(RecipeScreen.routeName, arguments: recipe);
   }
 }
