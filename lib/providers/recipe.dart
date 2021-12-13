@@ -60,6 +60,18 @@ class Recipe with ChangeNotifier {
     return _recipe.title;
   }
 
+  int get time {
+    return _recipe.time;
+  }
+
+  int get calPerServ {
+    return _recipe.calPerServ;
+  }
+
+  int get yields {
+    return _recipe.yields;
+  }
+
   String get description {
     return _recipe.description;
   }
@@ -84,7 +96,7 @@ class Recipe with ChangeNotifier {
     notifyListeners();
   }
 
-  void send() async {
+  Future<String> send() async {
     print('will send to BE');
     Map<String, dynamic> jsonRecipe = _recipe.toJson();
     var url = Uri.parse('http://10.0.2.2:3000//v1/recipes');
@@ -93,8 +105,15 @@ class Recipe with ChangeNotifier {
         headers: {"Content-Type": "application/json"});
 
     Map<String, dynamic> recipeMap = jsonDecode(response.body);
-    var newRecipe = RecipeItem.fromJson(recipeMap);
-    print(response.statusCode);
-    print(response.body);
+    return recipeMap['id'];
+  }
+
+  Future<RecipeItem> fetchRecipe(String id) async {
+    var url = Uri.parse('http://10.0.2.2:3000//v1/recipes/${id}');
+    final response =
+        await http.get(url, headers: {"Content-Type": "application/json"});
+    Map<String, dynamic> recipeMap = jsonDecode(response.body);
+    _recipe = RecipeItem.fromJson(recipeMap);
+    return _recipe;
   }
 }

@@ -1,7 +1,9 @@
 import 'package:cook_app/components/lists/ingredient_list.dart';
 import 'package:cook_app/components/lists/step_list.dart';
+import 'package:cook_app/screens/home.dart';
 import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
 import 'package:cook_app/screens/recepies/new_recipe/step.dart';
+import 'package:cook_app/screens/recepies/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cook_app/providers/recipe.dart';
@@ -18,6 +20,7 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
   final _tags = GlobalKey<TagsState>();
   String listErrorMsg = '';
   String stepsErrorMsg = '';
+  var _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -239,41 +242,51 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
               Container(
                 padding: const EdgeInsets.all(20),
                 width: double.infinity,
-                child: RaisedButton(
-                  onPressed: () {
-                    // Navigator.of(context).pushNamed(IngredientScreen.routeName);
-                    if (_recipe.ingredients.length == 0) {
-                      setState(() {
-                        listErrorMsg = 'Please add some ingredients';
-                      });
-                    } else {
-                      setState(() {
-                        listErrorMsg = '';
-                      });
-                    }
+                child: _isLoading
+                    ? Center(
+                        child: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      )
+                    : RaisedButton(
+                        onPressed: () {
+                          // Navigator.of(context).pushNamed(IngredientScreen.routeName);
+                          if (_recipe.ingredients.length == 0) {
+                            setState(() {
+                              listErrorMsg = 'Please add some ingredients';
+                            });
+                          } else {
+                            setState(() {
+                              listErrorMsg = '';
+                            });
+                          }
 
-                    if (_recipe.steps.length == 0) {
-                      setState(() {
-                        stepsErrorMsg = 'Please add some steps';
-                      });
-                    } else {
-                      setState(() {
-                        stepsErrorMsg = '';
-                      });
-                    }
+                          if (_recipe.steps.length == 0) {
+                            setState(() {
+                              stepsErrorMsg = 'Please add some steps';
+                            });
+                          } else {
+                            setState(() {
+                              stepsErrorMsg = '';
+                            });
+                          }
 
-                    if (_form.currentState!.validate() &&
-                        listErrorMsg.isEmpty &&
-                        stepsErrorMsg.isEmpty) {
-                      _recipe.send();
-                    }
-                  },
-                  child: const Text(
-                    'Save my recipe',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  color: Theme.of(context).primaryColor,
-                ),
+                          if (_form.currentState!.validate() &&
+                              listErrorMsg.isEmpty &&
+                              stepsErrorMsg.isEmpty) {
+                            sendRecipe();
+                          }
+                        },
+                        child: const Text(
+                          'Save my recipe',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        color: Theme.of(context).primaryColor,
+                      ),
               ),
               const SizedBox(
                 height: 80,
@@ -283,5 +296,20 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
         ),
       ),
     );
+  }
+
+  Future<void> sendRecipe() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String recipeId = await Provider.of<Recipe>(context, listen: false).send();
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    Navigator.of(context)
+        .popAndPushNamed(RecipeScreen.routeName, arguments: recipeId);
   }
 }

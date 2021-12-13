@@ -39,20 +39,5 @@ class IngredientList extends StatelessWidget {
         }).toList(),
       ),
     );
-    // return ListView.builder(
-    //   itemBuilder: (ctx, index) {
-    //     return ListTile(
-    //       leading: CircleAvatar(
-    //         backgroundColor: Theme.of(ctx).primaryColor,
-    //         child: FittedBox(
-    //           child: Text('${index + 1}'),
-    //         ),
-    //       ),
-    //       title: Text('text1'),
-    //       subtitle: Text('text2'),
-    //     );
-    //   },
-    //   itemCount: ingredients.length,
-    // );
   }
 }

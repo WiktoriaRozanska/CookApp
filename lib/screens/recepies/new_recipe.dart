@@ -1,7 +1,5 @@
 import 'package:cook_app/components/forms/new_recipe_form.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/recipe.dart';
 
 class NewRecipeScreen extends StatefulWidget {
   @override
