@@ -508,6 +508,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  radio_button_form_field:
+    dependency: "direct main"
+    description:
+      name: radio_button_form_field
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   shelf:
     dependency: transitive
     description:

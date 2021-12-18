@@ -44,6 +44,7 @@ dependencies:
   flutter_tags: "^1.0.0-nullsafety.1"
   json_annotation: ^4.4.0
   infinite_scroll_pagination: ^3.1.0
+  radio_button_form_field: ^0.0.4
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,8 @@ flutter:
     - assets/images/undraw_diet_ghvw.svg
     - assets/images/undraw_typewriter_i-8-xd.svg
     - assets/images/undraw_barbecue_3x93.svg
+    - assets/images/undraw_female_avatar_w3jk.svg
+    - assets/images/undraw_male_avatar_323b.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
