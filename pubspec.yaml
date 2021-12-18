@@ -45,6 +45,7 @@ dependencies:
   json_annotation: ^4.4.0
   infinite_scroll_pagination: ^3.1.0
   radio_button_form_field: ^0.0.4
+  day_picker: ^2.0.0
 
 dev_dependencies:
   flutter_test:

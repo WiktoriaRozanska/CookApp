@@ -1,3 +1,4 @@
+import 'package:cook_app/components/custom_dialog_box.dart';
 import 'package:cook_app/components/lists/ingredient_list.dart';
 import 'package:cook_app/components/lists/step_list.dart';
 import 'package:cook_app/models/recipe_item.dart';
@@ -56,7 +57,9 @@ class _RecipeScreenState extends State<RecipeScreen> {
             ),
             RaisedButton(
               onPressed: () {
-                print('Click');
+                showCustomDialogBox(context,
+                    title: 'Set day when you want to doing this recipe',
+                    description: 'We have created custom dialog box');
               },
               child: const Text(
                 'Add to my menu',
