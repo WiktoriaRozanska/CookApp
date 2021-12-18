@@ -4,6 +4,7 @@ import 'package:cook_app/providers/tags.dart';
 import 'package:cook_app/screens/home.dart';
 import 'package:cook_app/screens/recepies/categories.dart';
 import 'package:cook_app/screens/recepies/filters.dart';
+import 'package:cook_app/screens/recepies/my_recipes.dart';
 import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
 import 'package:cook_app/screens/recepies/new_recipe/step.dart';
 import 'package:cook_app/screens/recepies/recipe.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
             RecipeScreen.routeName: (ctx) => const RecipeScreen(),
             FiltersScreen.routeName: (ctx) => FiltersScreen(),
             CategoriesScreen.routeName: (ctx) => CategoriesScreen(),
+            MyRecipesScreen.routeName: (ctx) => MyRecipesScreen(),
           },
         ),
       ),

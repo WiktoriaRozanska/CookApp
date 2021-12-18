@@ -163,6 +163,25 @@ class Recipe with ChangeNotifier {
     return recipes;
   }
 
+  Future<List<RecipeItem>> fetchMyRecipes(int startIndex, int size) async {
+    final qParameters = {
+      'startIndex': startIndex.toString(),
+      'size': size.toString(),
+    };
+    var url = Uri.http('10.0.2.2:3000', '/v1/my_recipes', qParameters);
+
+    final response = await http.get(
+      url,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    List<dynamic> recipeList = jsonDecode(response.body);
+    List<RecipeItem> recipes = recipeList.map((recipe) {
+      return RecipeItem.fromJson(recipe);
+    }).toList();
+    return recipes;
+  }
+
   List<dynamic> get allTags {
     return _allTags;
   }

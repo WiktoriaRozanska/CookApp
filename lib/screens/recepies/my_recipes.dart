@@ -5,12 +5,14 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:cook_app/providers/recipe.dart' as RecipeProvider;
 
-class FavoriteScreen extends StatefulWidget {
+class MyRecipesScreen extends StatefulWidget {
+  static const routeName = '/my_recipes';
+
   @override
-  State<FavoriteScreen> createState() => _FavoriteScreenState();
+  State<MyRecipesScreen> createState() => _MyRecipesScreenState();
 }
 
-class _FavoriteScreenState extends State<FavoriteScreen> {
+class _MyRecipesScreenState extends State<MyRecipesScreen> {
   static const _pageSize = 5;
   final PagingController<int, RecipeItem> _pagingController =
       PagingController(firstPageKey: 0);
@@ -36,7 +38,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems =
-          await _recipeProvider!.fetchFavoriteRecipes(pageKey, _pageSize);
+          await _recipeProvider!.fetchMyRecipes(pageKey, _pageSize);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -54,7 +56,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorites'),
+        title: const Text('My recipes'),
       ),
       body: PagedListView<int, RecipeItem>(
         pagingController: _pagingController,

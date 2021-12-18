@@ -1,4 +1,5 @@
 import 'package:cook_app/screens/recepies/filters.dart';
+import 'package:cook_app/screens/recepies/my_recipes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -50,8 +51,7 @@ class CategoriesDrawer extends StatelessWidget {
                 .pushNamed(FiltersScreen.routeName, arguments: addOrRemove);
           }),
           buildListTile('My recipes', Icons.book, () {
-            Navigator.of(context)
-                .pushNamed(FiltersScreen.routeName, arguments: addOrRemove);
+            Navigator.of(context).pushNamed(MyRecipesScreen.routeName);
           }),
           Expanded(child: Container()),
           // decoration
