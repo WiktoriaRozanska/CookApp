@@ -143,6 +143,26 @@ class Recipe with ChangeNotifier {
     return recipes;
   }
 
+  Future<List<RecipeItem>> fetchFavoriteRecipes(
+      int startIndex, int size) async {
+    final qParameters = {
+      'startIndex': startIndex.toString(),
+      'size': size.toString(),
+    };
+    var url = Uri.http('10.0.2.2:3000', '/v1/recipe/favorites', qParameters);
+
+    final response = await http.get(
+      url,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    List<dynamic> recipeList = jsonDecode(response.body);
+    List<RecipeItem> recipes = recipeList.map((recipe) {
+      return RecipeItem.fromJson(recipe);
+    }).toList();
+    return recipes;
+  }
+
   List<dynamic> get allTags {
     return _allTags;
   }
@@ -188,5 +208,26 @@ class Recipe with ChangeNotifier {
 
   void addTagtoList(dynamic tag) {
     _selectedTags.add(tag);
+  }
+
+  Future<List<RecipeItem>> fetchFavorites(
+      int startIndex, int size, List<dynamic> filters) async {
+    final qParameters = {
+      'startIndex': startIndex.toString(),
+      'size': size.toString(),
+      'filters[]': filters.map((tag) => tag['id'].toString()),
+    };
+    var url = Uri.http('10.0.2.2:3000', '/v1/recipes/favorites', qParameters);
+
+    final response = await http.get(
+      url,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    List<dynamic> recipeList = jsonDecode(response.body);
+    List<RecipeItem> recipes = recipeList.map((recipe) {
+      return RecipeItem.fromJson(recipe);
+    }).toList();
+    return recipes;
   }
 }

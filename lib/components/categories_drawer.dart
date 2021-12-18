@@ -49,6 +49,10 @@ class CategoriesDrawer extends StatelessWidget {
             Navigator.of(context)
                 .pushNamed(FiltersScreen.routeName, arguments: addOrRemove);
           }),
+          buildListTile('My recipes', Icons.book, () {
+            Navigator.of(context)
+                .pushNamed(FiltersScreen.routeName, arguments: addOrRemove);
+          }),
           Expanded(child: Container()),
           // decoration
           SvgPicture.asset(

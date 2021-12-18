@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
             // change the focus border color when the errorText is set
             errorColor: Colors.teal,
           ),
-          // home: authData.isAuth ? HomeScreen() : LoginScreen(),
-          home: HomeScreen(),
+          home: authData.isAuth ? HomeScreen() : LoginScreen(),
+          // home: HomeScreen(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
             HomeScreen.routeName: (ctx) => HomeScreen(),
