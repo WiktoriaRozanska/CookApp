@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class Tags with ChangeNotifier {
@@ -21,5 +22,32 @@ class Tags with ChangeNotifier {
     _allTags = jsonDecode(response.body);
 
     return _allTags;
+  }
+
+  void addOrRemove(dynamic tag) {
+    bool elementIsInTheList = lisContainsTag(tag);
+    if (elementIsInTheList) {
+      _selectedTags.removeWhere((element) => element['id'] == tag['id']);
+    } else {
+      _selectedTags.add(tag);
+    }
+  }
+
+  List<dynamic> get selectedTags {
+    return _selectedTags;
+  }
+
+  void clearSelectedTag() {
+    _selectedTags = [];
+  }
+
+  bool lisContainsTag(Map<String, dynamic> tag) {
+    bool isInList = false;
+    _selectedTags.forEach((element) {
+      if (mapEquals(element, tag)) {
+        isInList = true;
+      }
+    });
+    return isInList;
   }
 }

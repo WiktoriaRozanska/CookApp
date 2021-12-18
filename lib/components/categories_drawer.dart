@@ -4,7 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CategoriesDrawer extends StatelessWidget {
-  const CategoriesDrawer({Key? key}) : super(key: key);
+  Function addOrRemove;
+
+  CategoriesDrawer({Key? key, required this.addOrRemove}) : super(key: key);
 
   Widget buildListTile(
       String title, IconData iconData, VoidCallback tapHandler) {
@@ -44,7 +46,8 @@ class CategoriesDrawer extends StatelessWidget {
             height: 20,
           ),
           buildListTile('Filters', Icons.filter_alt_outlined, () {
-            Navigator.of(context).pushNamed(FiltersScreen.routeName);
+            Navigator.of(context)
+                .pushNamed(FiltersScreen.routeName, arguments: addOrRemove);
           }),
           Expanded(child: Container()),
           // decoration

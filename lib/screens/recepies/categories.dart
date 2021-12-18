@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:cook_app/providers/recipe.dart' as RecipeProvider;
 
 class CategoriesScreen extends StatefulWidget {
+  static const routeName = '/categories';
+
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();
 }
@@ -16,6 +18,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   final PagingController<int, RecipeItem> _pagingController =
       PagingController(firstPageKey: 0);
   RecipeProvider.Recipe? _recipeProvider;
+  List<dynamic> filters = [];
 
   @override
   void initState() {
@@ -36,7 +39,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await _recipeProvider!.fetchRecipes(pageKey, _pageSize);
+      final newItems =
+          await _recipeProvider!.fetchRecipes(pageKey, _pageSize, filters);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -56,7 +60,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       appBar: AppBar(
         title: const Text('Recipes'),
       ),
-      endDrawer: const CategoriesDrawer(),
+      endDrawer: CategoriesDrawer(
+        addOrRemove: addOrRemove,
+      ),
       body: PagedListView<int, RecipeItem>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<RecipeItem>(
@@ -64,5 +70,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         ),
       ),
     );
+  }
+
+  void addOrRemove(dynamic tag) {
+    _recipeProvider!.addOrRemove(tag);
+    setState(() {
+      filters = _recipeProvider!.selectedTags;
+    });
+    _pagingController.refresh();
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cook_app/models/ingredient.dart';
 import 'package:http/http.dart' as http;
 import '../models/recipe_item.dart';
+import 'package:flutter/foundation.dart';
 
 class Recipe with ChangeNotifier {
   RecipeItem _recipe = RecipeItem(
@@ -15,6 +16,9 @@ class Recipe with ChangeNotifier {
       time: 0,
       calPerServ: 0,
       yields: 0);
+
+  List<dynamic> _allTags = [];
+  List<dynamic> _selectedTags = [];
 
   void addTitle(String title) {
     _recipe.title = title;
@@ -118,10 +122,12 @@ class Recipe with ChangeNotifier {
     return _recipe;
   }
 
-  Future<List<RecipeItem>> fetchRecipes(int startIndex, int size) async {
+  Future<List<RecipeItem>> fetchRecipes(
+      int startIndex, int size, List<dynamic> filters) async {
     final qParameters = {
       'startIndex': startIndex.toString(),
-      'size': size.toString()
+      'size': size.toString(),
+      'filters[]': filters.map((tag) => tag['id'].toString()),
     };
     var url = Uri.http('10.0.2.2:3000', '/v1/recipes', qParameters);
 
@@ -135,5 +141,52 @@ class Recipe with ChangeNotifier {
       return RecipeItem.fromJson(recipe);
     }).toList();
     return recipes;
+  }
+
+  List<dynamic> get allTags {
+    return _allTags;
+  }
+
+  Future<List<dynamic>> fetchTags() async {
+    var url = Uri.parse('http://10.0.2.2:3000/v1/tags');
+    final response = await http.get(
+      url,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    _allTags = jsonDecode(response.body);
+
+    return _allTags;
+  }
+
+  void addOrRemove(dynamic tag) {
+    bool elementIsInTheList = lisContainsTag(tag);
+    if (elementIsInTheList) {
+      _selectedTags.removeWhere((element) => element['id'] == tag['id']);
+    } else {
+      _selectedTags.add(tag);
+    }
+  }
+
+  List<dynamic> get selectedTags {
+    return _selectedTags;
+  }
+
+  bool lisContainsTag(Map<String, dynamic> tag) {
+    bool isInList = false;
+    _selectedTags.forEach((element) {
+      if (mapEquals(element, tag)) {
+        isInList = true;
+      }
+    });
+    return isInList;
+  }
+
+  void removeTagFromList(dynamic tag) {
+    _selectedTags.removeWhere((element) => element['id'] == tag['id']);
+  }
+
+  void addTagtoList(dynamic tag) {
+    _selectedTags.add(tag);
   }
 }
