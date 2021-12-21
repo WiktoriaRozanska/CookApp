@@ -88,7 +88,7 @@ class CustomDialogBox extends StatelessWidget {
                   ),
                   Container(
                     height: 1.5,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    margin: const EdgeInsets.only(top: 20, bottom: 30),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -117,7 +117,7 @@ class CustomDialogBox extends StatelessWidget {
                             begin: Alignment.topLeft,
                             colors: [
                               const Color(0xFF00BFA6),
-                              const Color(0xFF0AE6C7)
+                              const Color(0xFF047F6F)
                             ],
                             tileMode: TileMode
                                 .repeated, // repeats the gradient over the canvas
