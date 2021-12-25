@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cook_app/models/week_plan.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/models/ingredient.dart';
 import 'package:http/http.dart' as http;
@@ -198,9 +199,15 @@ class Recipe with ChangeNotifier {
     return _allTags;
   }
 
-  void addToMenu(String recipeId, List<dynamic> days) {
+  Future<void> addToMenu(String recipeId, List<dynamic> days) async {
     print(recipeId);
     print(days);
+    Map<String, dynamic> arguments = {'recipeId': recipeId, 'days': days};
+    var url = Uri.parse('http://10.0.2.2:3000/v1/week_plans');
+
+    await http.post(url,
+        body: json.encode({'weekPlan': arguments}),
+        headers: {"Content-Type": "application/json"});
   }
 
   void addOrRemove(dynamic tag) {
@@ -210,6 +217,18 @@ class Recipe with ChangeNotifier {
     } else {
       _selectedTags.add(tag);
     }
+  }
+
+  Future<WeekPlan> fetchWeekPlan() async {
+    var url = Uri.parse('http://10.0.2.2:3000/v1/week_plans');
+    final response = await http.get(
+      url,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    var json = jsonDecode(response.body);
+
+    return WeekPlan.fromJson(json);
   }
 
   List<dynamic> get selectedTags {
