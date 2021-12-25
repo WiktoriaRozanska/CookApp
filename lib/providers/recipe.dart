@@ -198,6 +198,11 @@ class Recipe with ChangeNotifier {
     return _allTags;
   }
 
+  void addToMenu(String recipeId, List<dynamic> days) {
+    print(recipeId);
+    print(days);
+  }
+
   void addOrRemove(dynamic tag) {
     bool elementIsInTheList = lisContainsTag(tag);
     if (elementIsInTheList) {

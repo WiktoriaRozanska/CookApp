@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:day_picker/day_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:cook_app/providers/recipe.dart';
 
 showCustomDialogBox(BuildContext context,
-    {required String title, required String description}) {
+    {required String title,
+    required String description,
+    required String recipeId}) {
   return showGeneralDialog(
     context: context,
     barrierLabel: '',
@@ -10,7 +14,8 @@ showCustomDialogBox(BuildContext context,
     barrierColor: Colors.black.withOpacity(0.5),
     transitionDuration: const Duration(milliseconds: 300),
     pageBuilder: (context, animation, secondaryAnimation) {
-      return CustomDialogBox(title: title, description: description);
+      return CustomDialogBox(
+          title: title, description: description, recipeId: recipeId);
     },
     transitionBuilder: (context, animation, secondaryAnimation, child) {
       return ScaleTransition(
@@ -25,7 +30,7 @@ showCustomDialogBox(BuildContext context,
 
 class CustomDialogBox extends StatelessWidget {
   final _borderRadius = 20.0;
-  final String title, description;
+  final String title, description, recipeId;
 
   List<DayInWeek> _days = [
     DayInWeek("Mon", isSelected: true),
@@ -49,12 +54,18 @@ class CustomDialogBox extends StatelessWidget {
     ),
   ];
 
-  CustomDialogBox({Key? key, required this.title, required this.description})
+  CustomDialogBox(
+      {Key? key,
+      required this.title,
+      required this.description,
+      required this.recipeId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
+    final _recipeProvider = Provider.of<Recipe>(context);
+    List<String> _seletcedDay = [];
 
     return WillPopScope(
       onWillPop: () => Future.value(false),
@@ -124,8 +135,7 @@ class CustomDialogBox extends StatelessWidget {
                           ),
                         ),
                         onSelect: (values) {
-                          // <== Callback to handle the selected days
-                          print(values);
+                          _seletcedDay = values;
                         },
                       ),
                     ),
@@ -142,6 +152,7 @@ class CustomDialogBox extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 clipBehavior: Clip.antiAlias,
                 onPressed: () {
+                  _recipeProvider.addToMenu(recipeId, _seletcedDay);
                   Navigator.of(context).pop();
                 },
                 child: const Text(

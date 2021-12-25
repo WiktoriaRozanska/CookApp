@@ -59,7 +59,8 @@ class _RecipeScreenState extends State<RecipeScreen> {
               onPressed: () {
                 showCustomDialogBox(context,
                     title: 'Set day when you want to doing this recipe',
-                    description: 'We have created custom dialog box');
+                    description: 'We have created custom dialog box',
+                    recipeId: recipeItem.id);
               },
               child: const Text(
                 'Add to my menu',
