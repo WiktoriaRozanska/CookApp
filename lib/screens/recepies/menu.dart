@@ -40,6 +40,33 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ))
         : Scaffold(
+            bottomSheet: Material(
+              color: Colors.transparent,
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 70),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    RaisedButton(
+                      onPressed: () {
+                        print('shopping list');
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(Icons.shopping_basket_outlined),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Text('Go to shopping list'),
+                        ],
+                      ),
+                      color: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ),
             appBar: AppBar(
               title: const Text('Menu for this week'),
             ),
