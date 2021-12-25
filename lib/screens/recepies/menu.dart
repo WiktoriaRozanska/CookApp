@@ -46,10 +46,14 @@ class _MenuScreenState extends State<MenuScreen> {
             body: SingleChildScrollView(
               child: Container(
                 padding: const EdgeInsets.only(
-                    top: 40, left: 20, right: 20, bottom: 40),
+                    top: 10, left: 0, right: 0, bottom: 40),
                 child: Column(
                   children: weekPlan!.days
-                      .map((day) => SpecificDay(day: day))
+                      .map((day) => SpecificDay(
+                            day: day,
+                            removeFromMenu:
+                                _weekPlanProvider!.deleteRecipeFromMenu,
+                          ))
                       .toList(),
                 ),
               ),
