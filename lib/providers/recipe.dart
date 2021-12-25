@@ -220,8 +220,6 @@ class Recipe with ChangeNotifier {
   }
 
   Future<void> deleteRecipeFromMenu(String recipeId, int dayId) async {
-    print('TEST');
-    // /v1/week_plans/day/:day_id/recipes/:id
     var url = Uri.parse(
         'http://10.0.2.2:3000/v1/week_plan/day/${dayId}/recipes/${recipeId}');
     await http.delete(url, headers: {"Content-Type": "application/json"});
