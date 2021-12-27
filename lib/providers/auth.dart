@@ -4,11 +4,10 @@ import 'package:cook_app/models/http_exception.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
   String? _token;
-  DateTime? _expiryDate;
-  String? _userId;
 
   bool get isAuth {
     if (_token != null) {
@@ -42,9 +41,9 @@ class Auth with ChangeNotifier {
       }
 
       _token = response.headers['authorization'];
-      _userId =
-          responseData['id'].toString(); //remove .toString() when we use uuid
       notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', '${_token}');
     } catch (error) {
       rethrow;
     }
@@ -68,11 +67,25 @@ class Auth with ChangeNotifier {
       }
 
       _token = response.headers['authorization'];
-      _userId =
-          responseData['id'].toString(); //remove .toString() when we use uuid
       notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', '${_token}');
     } catch (error) {
       rethrow;
     }
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('token')) {
+      return false;
+    }
+
+    _token = prefs.getString('token');
+    if (isAuth) {
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 }

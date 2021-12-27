@@ -3,6 +3,7 @@ import 'package:cook_app/providers/recipe.dart';
 import 'package:cook_app/providers/shopping_list.dart';
 import 'package:cook_app/providers/user.dart';
 import 'package:cook_app/screens/home.dart';
+import 'package:cook_app/screens/login/splash_screen.dart';
 import 'package:cook_app/screens/recepies/categories.dart';
 import 'package:cook_app/screens/recepies/filters.dart';
 import 'package:cook_app/screens/recepies/menu.dart';
@@ -61,7 +62,16 @@ class MyApp extends StatelessWidget {
             // change the focus border color when the errorText is set
             errorColor: Colors.teal,
           ),
-          home: authData.isAuth ? HomeScreen() : LoginScreen(),
+          home: authData.isAuth
+              ? HomeScreen()
+              : FutureBuilder(
+                  future: authData.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? const SplashScreen()
+                          : LoginScreen(),
+                ),
           // home: HomeScreen(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),

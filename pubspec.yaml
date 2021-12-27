@@ -47,6 +47,7 @@ dependencies:
   radio_button_form_field: ^0.0.4
   day_picker: ^2.0.0
   flutter_slidable: ^1.1.0
+  shared_preferences: ^2.0.11
 
 dev_dependencies:
   flutter_test:
