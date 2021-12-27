@@ -1,7 +1,6 @@
 import 'package:cook_app/providers/auth.dart';
 import 'package:cook_app/providers/recipe.dart';
 import 'package:cook_app/providers/shopping_list.dart';
-import 'package:cook_app/providers/tags.dart';
 import 'package:cook_app/providers/user.dart';
 import 'package:cook_app/screens/home.dart';
 import 'package:cook_app/screens/recepies/categories.dart';
