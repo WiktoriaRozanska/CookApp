@@ -1,5 +1,6 @@
 import 'package:cook_app/components/week_plan/specific_day.dart';
 import 'package:cook_app/models/week_plan.dart';
+import 'package:cook_app/screens/recepies/menu/shopping_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cook_app/providers/recipe.dart';
@@ -49,7 +50,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   children: [
                     RaisedButton(
                       onPressed: () {
-                        print('shopping list');
+                        Navigator.of(context)
+                            .pushNamed(ShoppingListScreen.routeName);
                       },
                       child: Row(
                         children: [
@@ -77,10 +79,14 @@ class _MenuScreenState extends State<MenuScreen> {
                 child: Column(
                   children: weekPlan!.days
                       .map((day) => SpecificDay(
-                            day: day,
-                            removeFromMenu:
-                                _weekPlanProvider!.deleteRecipeFromMenu,
-                          ))
+                          day: day,
+                          removeFromMenu: (recipeId, dayId) {
+                            _weekPlanProvider!
+                                .deleteRecipeFromMenu(recipeId, dayId);
+                            setState(() {
+                              weekPlan = _weekPlanProvider!.updatedRecipePlan();
+                            });
+                          }))
                       .toList(),
                 ),
               ),

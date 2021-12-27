@@ -6,6 +6,7 @@ import 'package:cook_app/models/ingredient.dart';
 import 'package:http/http.dart' as http;
 import '../models/recipe_item.dart';
 import 'package:flutter/foundation.dart';
+import 'package:cook_app/models/day.dart';
 
 class Recipe with ChangeNotifier {
   RecipeItem _recipe = RecipeItem(
@@ -20,6 +21,7 @@ class Recipe with ChangeNotifier {
 
   List<dynamic> _allTags = [];
   List<dynamic> _selectedTags = [];
+  WeekPlan? _weekPlan;
 
   void addTitle(String title) {
     _recipe.title = title;
@@ -222,7 +224,15 @@ class Recipe with ChangeNotifier {
   Future<void> deleteRecipeFromMenu(String recipeId, int dayId) async {
     var url = Uri.parse(
         'http://10.0.2.2:3000/v1/week_plan/day/${dayId}/recipes/${recipeId}');
+
+    Day day = _weekPlan!.days.firstWhere((day) => day.id == dayId);
+    day.recipes.removeWhere((recipe) => recipe.id == recipeId);
+
     await http.delete(url, headers: {"Content-Type": "application/json"});
+  }
+
+  WeekPlan updatedRecipePlan() {
+    return _weekPlan!;
   }
 
   Future<WeekPlan> fetchWeekPlan() async {
@@ -233,8 +243,9 @@ class Recipe with ChangeNotifier {
     );
 
     var json = jsonDecode(response.body);
+    _weekPlan = WeekPlan.fromJson(json);
 
-    return WeekPlan.fromJson(json);
+    return _weekPlan!;
   }
 
   List<dynamic> get selectedTags {

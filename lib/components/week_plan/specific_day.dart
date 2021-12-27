@@ -32,6 +32,7 @@ class SpecificDay extends StatelessWidget {
           ),
           ...day.recipes
               .map((recipe) => DismissibleWidget(
+                    key: UniqueKey(),
                     item: recipe,
                     child: ListTile(
                       // contentPadding: ,

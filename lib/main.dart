@@ -1,11 +1,13 @@
 import 'package:cook_app/providers/auth.dart';
 import 'package:cook_app/providers/recipe.dart';
+import 'package:cook_app/providers/shopping_list.dart';
 import 'package:cook_app/providers/tags.dart';
 import 'package:cook_app/providers/user.dart';
 import 'package:cook_app/screens/home.dart';
 import 'package:cook_app/screens/recepies/categories.dart';
 import 'package:cook_app/screens/recepies/filters.dart';
 import 'package:cook_app/screens/recepies/menu.dart';
+import 'package:cook_app/screens/recepies/menu/shopping_list.dart';
 import 'package:cook_app/screens/recepies/my_recipes.dart';
 import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
 import 'package:cook_app/screens/recepies/new_recipe/step.dart';
@@ -35,6 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: Auth()),
         ChangeNotifierProvider.value(value: Recipe()),
         ChangeNotifierProvider.value(value: User()),
+        ChangeNotifierProvider.value(value: ShoppingListProvider()),
         // ChangeNotifierProxyProvider<Auth, Products(to co Ty provajdujesz)>(
         // update: (ctx, auth, previousProducts) => Products(auth.token))
       ],
@@ -54,8 +57,8 @@ class MyApp extends StatelessWidget {
             // change the focus border color when the errorText is set
             errorColor: Colors.teal,
           ),
-          // home: authData.isAuth ? HomeScreen() : LoginScreen(),
-          home: HomeScreen(),
+          home: authData.isAuth ? HomeScreen() : LoginScreen(),
+          // home: HomeScreen(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
             HomeScreen.routeName: (ctx) => HomeScreen(),
@@ -66,6 +69,7 @@ class MyApp extends StatelessWidget {
             CategoriesScreen.routeName: (ctx) => CategoriesScreen(),
             MyRecipesScreen.routeName: (ctx) => MyRecipesScreen(),
             MenuScreen.routeName: (ctx) => MenuScreen(),
+            ShoppingListScreen.routeName: (ctx) => ShoppingListScreen(),
           },
         ),
       ),
