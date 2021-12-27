@@ -9,6 +9,10 @@ import 'package:flutter/foundation.dart';
 import 'package:cook_app/models/day.dart';
 
 class Recipe with ChangeNotifier {
+  final String? authToke;
+
+  Recipe(this.authToke);
+
   RecipeItem _recipe = RecipeItem(
       title: '',
       description: '',
@@ -107,9 +111,14 @@ class Recipe with ChangeNotifier {
     print('will send to BE');
     Map<String, dynamic> jsonRecipe = _recipe.toJson();
     var url = Uri.parse('http://10.0.2.2:3000/v1/recipes');
-    final response = await http.post(url,
-        body: json.encode({'recipe': jsonRecipe}),
-        headers: {"Content-Type": "application/json"});
+    final response = await http.post(
+      url,
+      body: json.encode({'recipe': jsonRecipe}),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
+    );
 
     Map<String, dynamic> recipeMap = jsonDecode(response.body);
     clear();
@@ -118,8 +127,13 @@ class Recipe with ChangeNotifier {
 
   Future<RecipeItem> fetchRecipe(String id) async {
     var url = Uri.parse('http://10.0.2.2:3000/v1/recipes/${id}');
-    final response =
-        await http.get(url, headers: {"Content-Type": "application/json"});
+    final response = await http.get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
+    );
     Map<String, dynamic> recipeMap = jsonDecode(response.body);
     _recipe = RecipeItem.fromJson(recipeMap);
     return _recipe;
@@ -136,7 +150,10 @@ class Recipe with ChangeNotifier {
 
     final response = await http.get(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
     );
 
     List<dynamic> recipeList = jsonDecode(response.body);
@@ -156,7 +173,10 @@ class Recipe with ChangeNotifier {
 
     final response = await http.get(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
     );
 
     List<dynamic> recipeList = jsonDecode(response.body);
@@ -175,7 +195,10 @@ class Recipe with ChangeNotifier {
 
     final response = await http.get(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
     );
 
     List<dynamic> recipeList = jsonDecode(response.body);
@@ -193,7 +216,10 @@ class Recipe with ChangeNotifier {
     var url = Uri.parse('http://10.0.2.2:3000/v1/tags');
     final response = await http.get(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
     );
 
     _allTags = jsonDecode(response.body);
@@ -207,9 +233,14 @@ class Recipe with ChangeNotifier {
     Map<String, dynamic> arguments = {'recipeId': recipeId, 'days': days};
     var url = Uri.parse('http://10.0.2.2:3000/v1/week_plans');
 
-    await http.post(url,
-        body: json.encode({'weekPlan': arguments}),
-        headers: {"Content-Type": "application/json"});
+    await http.post(
+      url,
+      body: json.encode({'weekPlan': arguments}),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
+    );
   }
 
   void addOrRemove(dynamic tag) {
@@ -228,7 +259,13 @@ class Recipe with ChangeNotifier {
     Day day = _weekPlan!.days.firstWhere((day) => day.id == dayId);
     day.recipes.removeWhere((recipe) => recipe.id == recipeId);
 
-    await http.delete(url, headers: {"Content-Type": "application/json"});
+    await http.delete(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
+    );
   }
 
   WeekPlan updatedRecipePlan() {
@@ -239,7 +276,10 @@ class Recipe with ChangeNotifier {
     var url = Uri.parse('http://10.0.2.2:3000/v1/week_plans');
     final response = await http.get(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
     );
 
     var json = jsonDecode(response.body);
@@ -281,7 +321,10 @@ class Recipe with ChangeNotifier {
 
     final response = await http.get(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
     );
 
     List<dynamic> recipeList = jsonDecode(response.body);
