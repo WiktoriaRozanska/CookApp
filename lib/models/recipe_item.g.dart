@@ -22,7 +22,9 @@ RecipeItem _$RecipeItemFromJson(Map<String, dynamic> json) => RecipeItem(
       tags: (json['tags'] as List<dynamic>)
           .map((e) => e['name'] as String)
           .toList(),
-    )..isFavorite = json['isFavorite'] as bool?;
+      isFavorite: json['favorite'] as bool?,
+      owner: json['owner'] as bool?,
+    );
 
 Map<String, dynamic> _$RecipeItemToJson(RecipeItem instance) =>
     <String, dynamic>{
@@ -35,5 +37,6 @@ Map<String, dynamic> _$RecipeItemToJson(RecipeItem instance) =>
       'ingredients': instance.ingredients,
       'steps': instance.steps,
       'tags': instance.tags,
-      'isFavorite': instance.isFavorite,
+      'favorite': instance.isFavorite,
+      'owner': instance.owner,
     };

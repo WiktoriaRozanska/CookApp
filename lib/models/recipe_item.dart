@@ -15,18 +15,20 @@ class RecipeItem {
   List<String> steps;
   List<String> tags;
   bool? isFavorite = false;
+  bool? owner = false;
 
-  RecipeItem({
-    this.id,
-    required this.title,
-    required this.description,
-    required this.ingredients,
-    required this.time,
-    required this.calPerServ,
-    required this.yields,
-    required this.steps,
-    required this.tags,
-  });
+  RecipeItem(
+      {this.id,
+      required this.title,
+      required this.description,
+      required this.ingredients,
+      required this.time,
+      required this.calPerServ,
+      required this.yields,
+      required this.steps,
+      required this.tags,
+      this.isFavorite,
+      this.owner});
 
   factory RecipeItem.fromJson(Map<String, dynamic> json) =>
       _$RecipeItemFromJson(json);
