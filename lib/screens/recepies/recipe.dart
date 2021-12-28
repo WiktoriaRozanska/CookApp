@@ -5,6 +5,8 @@ import 'package:cook_app/models/recipe_item.dart';
 import 'package:cook_app/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tags/flutter_tags.dart';
+import 'package:provider/provider.dart';
+import 'package:cook_app/providers/recipe.dart';
 
 class RecipeScreen extends StatefulWidget {
   const RecipeScreen({Key? key}) : super(key: key);
@@ -31,6 +33,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _recipe = Provider.of<Recipe>(context, listen: false);
     final _tags = GlobalKey<TagsState>();
 
     return Scaffold(
@@ -41,10 +44,22 @@ class _RecipeScreenState extends State<RecipeScreen> {
           children: [
             ElevatedButton(
               onPressed: () {
+                if (recipeItem.isFavorite) {
+                  _recipe.removeFromFavorite(recipeItem.id);
+                } else {
+                  _recipe.addToFavorite(recipeItem.id);
+                }
+
+                setState(() {
+                  recipeItem.isFavorite = !recipeItem.isFavorite;
+                });
+
                 print('Click');
               },
-              child: const Icon(
-                Icons.favorite_border,
+              child: Icon(
+                recipeItem.isFavorite
+                    ? Icons.favorite_outlined
+                    : Icons.favorite_border,
                 color: Colors.white,
               ),
               // child: const Text(
@@ -67,7 +82,26 @@ class _RecipeScreenState extends State<RecipeScreen> {
                 style: TextStyle(color: Colors.white),
               ),
               color: Theme.of(context).primaryColor,
-            )
+            ),
+            if (recipeItem.owner)
+              ElevatedButton(
+                onPressed: () {
+                  _recipe.deleteRecipe(recipeItem.id);
+                  Navigator.of(context).pop();
+                  print('delete');
+                },
+                child: const Icon(
+                  Icons.delete_outline,
+                  color: Colors.white,
+                ),
+                // child: const Text(
+                //   'Add to favorite',
+                //   style: TextStyle(color: Colors.white),
+                // ),
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                ),
+              )
           ],
         ),
       ),

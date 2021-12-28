@@ -10,8 +10,12 @@ class Auth with ChangeNotifier {
   String? _token;
 
   bool get isAuth {
-    if (_token != null) {
-      return !JwtDecoder.isExpired(_token!);
+    try {
+      if (_token != null) {
+        return !JwtDecoder.isExpired(_token!);
+      }
+    } catch (error) {
+      return false;
     }
     return false;
   }
@@ -77,6 +81,7 @@ class Auth with ChangeNotifier {
 
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', 'user decided to log out');
     if (!prefs.containsKey('token')) {
       return false;
     }
@@ -87,5 +92,24 @@ class Auth with ChangeNotifier {
       return true;
     }
     return false;
+  }
+
+  Future<void> logout() async {
+    var url = Uri.parse('http://10.0.2.2:3000/users/sign_out');
+    try {
+      final response = await http.delete(url, headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${_token}'
+      });
+
+      if (response.statusCode <= 300) {
+        _token = null;
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', 'user decided to log out');
+      }
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
   }
 }

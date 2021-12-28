@@ -29,13 +29,13 @@ class User with ChangeNotifier {
   Future<model.User> updateUser(bool newGender, String newUsername) async {
     var body = {
       'user': {
-        'isFemale': newGender,
+        'is_female': newGender,
         'username': newUsername,
       }
     };
 
-    var url = Uri.parse('http://10.0.2.2:3000/v1/users/:id');
-    final response = await http.post(url, body: body, headers: {
+    var url = Uri.parse('http://10.0.2.2:3000/v1/users/${_user.id}');
+    final response = await http.patch(url, body: jsonEncode(body), headers: {
       "Content-Type": "application/json",
       "Authorization": '${authToke}'
     });

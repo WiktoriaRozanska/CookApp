@@ -99,6 +99,20 @@ class Recipe with ChangeNotifier {
     return _recipe.ingredients;
   }
 
+  bool get liked {
+    if (_recipe.isFavorite == null) {
+      return false;
+    }
+    return _recipe.isFavorite!;
+  }
+
+  bool get owner {
+    if (_recipe.owner == null) {
+      return false;
+    }
+    return _recipe.owner!;
+  }
+
   void clear() {
     _recipe.title = '';
     _recipe.description = '';
@@ -137,6 +151,31 @@ class Recipe with ChangeNotifier {
     Map<String, dynamic> recipeMap = jsonDecode(response.body);
     _recipe = RecipeItem.fromJson(recipeMap);
     return _recipe;
+  }
+
+  Future<void> addToFavorite(String recipeId) async {
+    // /v1/recipe/favorites
+    var url = Uri.parse('http://10.0.2.2:3000/v1/recipe/favorites');
+    await http.post(
+      url,
+      body: json.encode({'recipe_id': recipeId}),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
+    );
+  }
+
+  Future<void> removeFromFavorite(String recipeId) async {
+    // /v1/recipe/favorites
+    var url = Uri.parse('http://10.0.2.2:3000/v1/recipe/favorites/${recipeId}');
+    await http.delete(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
+    );
   }
 
   Future<List<RecipeItem>> fetchRecipes(
@@ -332,5 +371,18 @@ class Recipe with ChangeNotifier {
       return RecipeItem.fromJson(recipe);
     }).toList();
     return recipes;
+  }
+
+  Future<void> deleteRecipe(String recipeId) async {
+    var url = Uri.parse('http://10.0.2.2:3000/v1/recipes/${recipeId}');
+    ;
+
+    await http.delete(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
+    );
   }
 }
