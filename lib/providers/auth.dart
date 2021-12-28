@@ -81,7 +81,7 @@ class Auth with ChangeNotifier {
 
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('token', 'user decided to log out');
+
     if (!prefs.containsKey('token')) {
       return false;
     }

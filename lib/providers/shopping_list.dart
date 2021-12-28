@@ -15,20 +15,24 @@ class ShoppingListProvider with ChangeNotifier {
   }
 
   Future<List<ShoppingListItem>> fetchShoppingList() async {
-    var url = Uri.parse('http://10.0.2.2:3000/v1/shopping_list');
-    final response = await http.get(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": '${authToke}'
-      },
-    );
-    Map<String, dynamic> listMap = jsonDecode(response.body);
+    try {
+      var url = Uri.parse('http://10.0.2.2:3000/v1/shopping_list');
+      final response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": '${authToke}'
+        },
+      );
+      Map<String, dynamic> listMap = jsonDecode(response.body);
 
-    shoppingList = (listMap['shopping_list'] as List).map((listItem) {
-      return ShoppingListItem.fromJson(listItem);
-    }).toList();
+      shoppingList = (listMap['shopping_list'] as List).map((listItem) {
+        return ShoppingListItem.fromJson(listItem);
+      }).toList();
 
-    return shoppingList;
+      return shoppingList;
+    } catch (error) {
+      rethrow;
+    }
   }
 }

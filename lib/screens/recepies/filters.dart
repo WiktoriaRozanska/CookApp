@@ -1,3 +1,4 @@
+import 'package:cook_app/components/error_box.dart';
 import 'package:cook_app/screens/recepies/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Recipe? _tagsProvider;
   bool _isLoading = true;
   var _isInit = true;
+  var _errorOccurred = false;
   Function? addOrRemove;
 
   @override
@@ -26,6 +28,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
       _tagsProvider!.fetchTags().then((value) {
         setState(() {
           _isLoading = false;
+        });
+      }).onError((error, stackTrace) {
+        setState(() {
+          _isLoading = false;
+          _errorOccurred = true;
         });
       });
     });
@@ -51,53 +58,54 @@ class _FiltersScreenState extends State<FiltersScreen> {
               child: CircularProgressIndicator(
                 color: Theme.of(context).primaryColor,
               ),
-              // child: Text('DUPA'),
             ),
           )
-        : Scaffold(
-            appBar: AppBar(
-              title: const Text('Filters'),
-            ),
-            bottomSheet: Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(left: 90, right: 90),
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text(
-                  'Apply',
-                  style: TextStyle(color: Colors.white),
+        : _errorOccurred
+            ? Scaffold(body: ErrorBox())
+            : Scaffold(
+                appBar: AppBar(
+                  title: const Text('Filters'),
                 ),
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            body: SingleChildScrollView(
-              child: Container(
-                  margin: const EdgeInsets.only(bottom: 50),
-                  padding: const EdgeInsets.all(20),
-                  child: Tags(
-                    key: _tags,
-                    itemCount: _tagsProvider!.allTags.length,
-                    columns: 6,
-                    itemBuilder: (index) {
-                      final currentTag = _tagsProvider!.allTags[index];
-                      return ItemTags(
-                        key: Key(currentTag['id']!.toString()),
-                        index: index,
-                        title: currentTag['name']!,
-                        active: _tagsProvider!.lisContainsTag(currentTag)
-                            ? true
-                            : false,
-                        activeColor: Theme.of(context).primaryColor,
-                        combine: ItemTagsCombine.withTextAfter,
-                        onPressed: (i) {
-                          addOrRemove!(currentTag);
-                        },
-                      );
+                bottomSheet: Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(left: 90, right: 90),
+                  child: RaisedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
                     },
-                  )),
-            ),
-          );
+                    child: const Text(
+                      'Apply',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                body: SingleChildScrollView(
+                  child: Container(
+                      margin: const EdgeInsets.only(bottom: 50),
+                      padding: const EdgeInsets.all(20),
+                      child: Tags(
+                        key: _tags,
+                        itemCount: _tagsProvider!.allTags.length,
+                        columns: 6,
+                        itemBuilder: (index) {
+                          final currentTag = _tagsProvider!.allTags[index];
+                          return ItemTags(
+                            key: Key(currentTag['id']!.toString()),
+                            index: index,
+                            title: currentTag['name']!,
+                            active: _tagsProvider!.lisContainsTag(currentTag)
+                                ? true
+                                : false,
+                            activeColor: Theme.of(context).primaryColor,
+                            combine: ItemTagsCombine.withTextAfter,
+                            onPressed: (i) {
+                              addOrRemove!(currentTag);
+                            },
+                          );
+                        },
+                      )),
+                ),
+              );
   }
 }
