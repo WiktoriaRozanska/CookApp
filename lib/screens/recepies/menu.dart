@@ -75,7 +75,7 @@ class _MenuScreenState extends State<MenuScreen> {
             body: SingleChildScrollView(
               child: Container(
                 padding: const EdgeInsets.only(
-                    top: 10, left: 0, right: 0, bottom: 40),
+                    top: 10, left: 0, right: 0, bottom: 120),
                 child: Column(
                   children: weekPlan!.days
                       .map((day) => SpecificDay(

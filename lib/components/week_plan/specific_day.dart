@@ -1,6 +1,7 @@
 import 'package:cook_app/components/week_plan/dismissible_widget.dart';
 import 'package:cook_app/models/day.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SpecificDay extends StatelessWidget {
   final Day day;
@@ -36,9 +37,42 @@ class SpecificDay extends StatelessWidget {
                     item: recipe,
                     child: ListTile(
                       // contentPadding: ,
-                      leading: const CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://domowe-wypieki.com/wp-content/uploads/2019/08/p%C3%B3lkule-413x247.jpg"),
+                      leading: CircleAvatar(
+                        child: recipe.imageUrl == null
+                            ? SizedBox(
+                                child: ClipOval(
+                                  child: SvgPicture.asset(
+                                      'assets/images/undraw_breakfast_psiw.svg'),
+                                ),
+                                width: 60,
+                                height: 60,
+                              )
+                            : SizedBox(
+                                child: ClipOval(
+                                  child: Image.network(
+                                    recipe.imgUrl!,
+                                  ),
+                                ),
+                                width: 60,
+                                height: 60,
+                              ),
+                        backgroundColor: Colors.white,
+                        radius: 30,
+
+                        // backgroundImage: recipe.imageUrl == null
+                        //     ? NetworkImage(
+                        //         "https://domowe-wypieki.com/wp-content/uploads/2019/08/p%C3%B3lkule-413x247.jpg")
+
+                        //     : NetworkImage(recipe.imgUrl!),
+                        //   backgroundImage: recipeItem.imageUrl == null
+                        // ? SvgPicture.asset(
+                        //     'assets/images/undraw_breakfast_psiw.svg',
+                        //     fit: BoxFit.cover,
+                        //   )
+                        // : Image.network(
+                        //     recipeItem.imgUrl,
+                        //     fit: BoxFit.cover,
+                        //   ),
                       ),
                       title: Text(recipe.title),
                       // onTap: () => Navigator.of(context).pushReplacementNamed('/'),

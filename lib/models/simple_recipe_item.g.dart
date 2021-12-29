@@ -10,6 +10,7 @@ SimpleRecipeItem _$SimpleRecipeItemFromJson(Map<String, dynamic> json) =>
     SimpleRecipeItem(
       id: json['id'] as String,
       title: json['title'] as String,
+      imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$SimpleRecipeItemToJson(SimpleRecipeItem instance) =>
