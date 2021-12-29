@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:provider/provider.dart';
 import 'package:cook_app/providers/recipe.dart';
+import 'package:flutter_svg/svg.dart';
 
 class RecipeScreen extends StatefulWidget {
   const RecipeScreen({Key? key}) : super(key: key);
@@ -129,10 +130,15 @@ class _RecipeScreenState extends State<RecipeScreen> {
                         color: Colors.white,
                         fontSize: 16.0,
                       )),
-                  background: Image.network(
-                    "https://domowe-wypieki.com/wp-content/uploads/2019/08/p%C3%B3lkule-413x247.jpg",
-                    fit: BoxFit.cover,
-                  )),
+                  background: recipeItem.imageUrl == null
+                      ? SvgPicture.asset(
+                          'assets/images/undraw_breakfast_psiw.svg',
+                          fit: BoxFit.cover,
+                        )
+                      : Image.network(
+                          recipeItem.imgUrl,
+                          fit: BoxFit.cover,
+                        )),
             ),
           ];
         },

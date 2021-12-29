@@ -3,13 +3,17 @@ import 'dart:convert';
 import 'package:cook_app/models/week_plan.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/models/ingredient.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../models/recipe_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cook_app/models/day.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class Recipe with ChangeNotifier {
   final String? authToke;
+  XFile? _image;
 
   Recipe(this.authToke);
 
@@ -30,6 +34,10 @@ class Recipe with ChangeNotifier {
   void addTitle(String title) {
     _recipe.title = title;
     notifyListeners();
+  }
+
+  void addImage(XFile? img) {
+    _image = img;
   }
 
   void addDescription(String description) {
@@ -99,6 +107,10 @@ class Recipe with ChangeNotifier {
     return _recipe.ingredients;
   }
 
+  String? get imageUrl {
+    return 'http://10.0.2.2:3000/${_recipe.imageUrl}';
+  }
+
   bool get liked {
     if (_recipe.isFavorite == null) {
       return false;
@@ -118,6 +130,7 @@ class Recipe with ChangeNotifier {
     _recipe.description = '';
     _recipe.ingredients = [];
     _recipe.steps = [];
+    _image = null;
     notifyListeners();
   }
 
@@ -135,8 +148,46 @@ class Recipe with ChangeNotifier {
     );
 
     Map<String, dynamic> recipeMap = jsonDecode(response.body);
+
+    RecipeItem recipeItem = RecipeItem.fromJson(recipeMap);
+
+    //--------------------------------------------------------------------------
+
+    if (_image != null) {
+      var imgUrl =
+          Uri.parse('http://10.0.2.2:3000/v1/recipes/${recipeItem.id}/image');
+
+      var request = http.MultipartRequest("POST", imgUrl);
+      request.fields['title'] = 'dummyTest';
+      request.headers['Content-Type'] = 'application/json';
+      request.headers['Authorization'] = '${authToke}';
+
+      File file = File(_image!.path);
+
+      //     var bytes = element.readAsBytes();
+      // request.files.add(new http.MultipartFile.fromBytes('file', await bytes));
+      var bytes = file.readAsBytes();
+
+      // var picture = http.MultipartFile.fromBytes(
+      //     'image', (await rootBundle.load(_image!.path)).buffer.asUint8List(),
+      //     filename: 'testImg.png');
+
+      // request.files.add(http.MultipartFile.fromBytes('image', await bytes));
+      request.files
+          .add(await http.MultipartFile.fromPath('image', _image!.path));
+
+      var response = await request.send();
+      var res = await http.Response.fromStream(response);
+      print(res.statusCode);
+      print(res.body);
+
+      Map<String, dynamic> recipeMap = jsonDecode(res.body);
+
+      recipeItem = RecipeItem.fromJson(recipeMap);
+    }
+
     clear();
-    return RecipeItem.fromJson(recipeMap);
+    return recipeItem;
   }
 
   Future<RecipeItem> fetchRecipe(String id) async {

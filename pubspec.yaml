@@ -84,6 +84,7 @@ flutter:
     - assets/images/undraw_female_avatar_w3jk.svg
     - assets/images/undraw_male_avatar_323b.svg
     - assets/images/undraw_cancel_u-1-it.svg
+    - assets/images/undraw_breakfast_psiw.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

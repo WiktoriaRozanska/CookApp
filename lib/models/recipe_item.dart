@@ -16,6 +16,7 @@ class RecipeItem {
   List<String> tags;
   bool? isFavorite = false;
   bool? owner = false;
+  String? imageUrl;
 
   RecipeItem(
       {this.id,
@@ -28,10 +29,15 @@ class RecipeItem {
       required this.steps,
       required this.tags,
       this.isFavorite,
-      this.owner});
+      this.owner,
+      this.imageUrl});
 
   factory RecipeItem.fromJson(Map<String, dynamic> json) =>
       _$RecipeItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$RecipeItemToJson(this);
+
+  String? get imgUrl {
+    return 'http://10.0.2.2:3000/${imageUrl}';
+  }
 }

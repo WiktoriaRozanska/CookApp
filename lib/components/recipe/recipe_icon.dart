@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cook_app/models/recipe_item.dart';
 import 'package:cook_app/screens/recepies/recipe.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class RecipeIcon extends StatelessWidget {
   final RecipeItem recipeItem;
@@ -25,11 +26,25 @@ class RecipeIcon extends StatelessWidget {
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
-              child: Image.network(
-                  "https://domowe-wypieki.com/wp-content/uploads/2019/08/p%C3%B3lkule-413x247.jpg",
-                  height: 200,
-                  width: double.infinity,
-                  fit: BoxFit.cover), //Image.asset -> locally
+              // child: Image.network(
+              //     "https://domowe-wypieki.com/wp-content/uploads/2019/08/p%C3%B3lkule-413x247.jpg",
+              //     height: 200,
+              //     width: double.infinity,
+              //     fit: BoxFit.cover), //Image.asset -> locally
+
+              child: recipeItem.imageUrl == null
+                  ? SvgPicture.asset(
+                      'assets/images/undraw_breakfast_psiw.svg',
+                      fit: BoxFit.cover,
+                      height: 200,
+                      width: double.infinity,
+                    )
+                  : Image.network(
+                      recipeItem.imgUrl!,
+                      fit: BoxFit.cover,
+                      height: 200,
+                      width: double.infinity,
+                    ),
             ),
             Container(
               padding: const EdgeInsets.all(20),

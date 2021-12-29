@@ -24,6 +24,7 @@ RecipeItem _$RecipeItemFromJson(Map<String, dynamic> json) => RecipeItem(
           .toList(),
       isFavorite: json['favorite'] as bool?,
       owner: json['owner'] as bool?,
+      imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$RecipeItemToJson(RecipeItem instance) =>

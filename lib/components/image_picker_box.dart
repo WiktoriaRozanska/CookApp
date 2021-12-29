@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart' as imagePicker;
+import 'package:provider/provider.dart';
+import 'package:cook_app/providers/recipe.dart';
 
 class ImagePickerBox extends StatefulWidget {
   @override
@@ -22,6 +24,8 @@ class _ImagePickerBoxState extends State<ImagePickerBox> {
 
   @override
   Widget build(BuildContext context) {
+    final _recipe = Provider.of<Recipe>(context);
+
     return GestureDetector(
       child: Container(
         margin: const EdgeInsets.only(top: 10),
@@ -46,7 +50,9 @@ class _ImagePickerBoxState extends State<ImagePickerBox> {
       ),
       onTap: () {
         print('Tap! Tap');
-        getImage();
+        getImage().then((_) {
+          _recipe.addImage(_imageFile);
+        });
       },
     );
   }
