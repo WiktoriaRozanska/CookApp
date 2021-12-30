@@ -35,16 +35,22 @@ class _ImagePickerBoxState extends State<ImagePickerBox> {
             color: Theme.of(context).primaryColor,
             borderRadius: const BorderRadius.all(Radius.circular(30)),
             image: _imageFile == null
-                ? null
+                ? _recipe.editingMood && _recipe.hasImg
+                    ? DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(_recipe.imageUrl!))
+                    : null
                 : DecorationImage(
                     fit: BoxFit.fill,
                     image: FileImage(File(_imageFile!.path)))),
         child: Center(
           child: _imageFile == null
-              ? Icon(
-                  Icons.image_outlined,
-                  size: 50,
-                )
+              ? _recipe.editingMood && _recipe.hasImg
+                  ? null
+                  : const Icon(
+                      Icons.image_outlined,
+                      size: 50,
+                    )
               : null,
         ),
       ),

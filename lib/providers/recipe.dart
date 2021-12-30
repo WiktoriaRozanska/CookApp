@@ -52,6 +52,10 @@ class Recipe with ChangeNotifier {
     _ingredientIndexToEdit = index;
   }
 
+  bool get hasImg {
+    return _recipe.imageUrl != null;
+  }
+
   String? get stepDescriptionToEdite {
     if (_stepIndexToEdite < 0) {
       return null;
