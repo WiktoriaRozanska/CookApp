@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cook_app/models/week_plan.dart';
 import 'package:flutter/material.dart';
 import 'package:cook_app/models/ingredient.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../models/recipe_item.dart';
 import 'package:flutter/foundation.dart';
@@ -42,6 +41,15 @@ class Recipe with ChangeNotifier {
   void setRecipeItem(RecipeItem recipeItem, bool editingMood) {
     _recipe = recipeItem;
     _editingMode = editingMood;
+  }
+
+  void setEditingMood(bool mood) {
+    if (mood == false) {
+      _stepIndexToEdite = -1;
+      _ingredientIndexToEdit = -1;
+    }
+    _editingMode = mood;
+    notifyListeners();
   }
 
   void setStepIndexToEdite(int index) {
@@ -201,6 +209,52 @@ class Recipe with ChangeNotifier {
     Map<String, dynamic> jsonRecipe = _recipe.toJson();
     var url = Uri.parse('http://10.0.2.2:3000/v1/recipes');
     final response = await http.post(
+      url,
+      body: json.encode({'recipe': jsonRecipe}),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": '${authToke}'
+      },
+    );
+
+    Map<String, dynamic> recipeMap = jsonDecode(response.body);
+
+    RecipeItem recipeItem = RecipeItem.fromJson(recipeMap);
+
+    //--------------------------------------------------------------------------
+
+    if (_image != null) {
+      var imgUrl =
+          Uri.parse('http://10.0.2.2:3000/v1/recipes/${recipeItem.id}/image');
+
+      var request = http.MultipartRequest("POST", imgUrl);
+      request.fields['title'] = 'dummyTest';
+      request.headers['Content-Type'] = 'application/json';
+      request.headers['Authorization'] = '${authToke}';
+
+      File file = File(_image!.path);
+
+      request.files
+          .add(await http.MultipartFile.fromPath('image', _image!.path));
+
+      var response = await request.send();
+      var res = await http.Response.fromStream(response);
+      print(res.statusCode);
+      print(res.body);
+
+      Map<String, dynamic> recipeMap = jsonDecode(res.body);
+
+      recipeItem = RecipeItem.fromJson(recipeMap);
+    }
+
+    clear();
+    return recipeItem;
+  }
+
+  Future<RecipeItem> update() async {
+    Map<String, dynamic> jsonRecipe = _recipe.toJson();
+    var url = Uri.parse('http://10.0.2.2:3000/v1/recipes/${_recipe.id}');
+    final response = await http.patch(
       url,
       body: json.encode({'recipe': jsonRecipe}),
       headers: {

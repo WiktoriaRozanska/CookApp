@@ -291,7 +291,7 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                               listErrorMsg.isEmpty &&
                               stepsErrorMsg.isEmpty) {
                             if (_recipe.editingMood) {
-                              print('sent request to update recipe');
+                              updateRecipe();
                             } else {
                               sendRecipe();
                             }
@@ -326,6 +326,25 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
 
     RecipeItem recipe =
         await Provider.of<Recipe>(context, listen: false).send();
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    Navigator.of(context)
+        .popAndPushNamed(RecipeScreen.routeName, arguments: recipe);
+  }
+
+  Future<void> updateRecipe() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    var provider = Provider.of<Recipe>(context, listen: false);
+
+    RecipeItem recipe = await provider.update();
+
+    provider.setEditingMood(false);
 
     setState(() {
       _isLoading = false;
