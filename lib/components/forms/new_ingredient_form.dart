@@ -37,6 +37,14 @@ class _NewIngredientFormState extends State<NewIngredientForm> {
   @override
   Widget build(BuildContext context) {
     final _recipe = Provider.of<Recipe>(context);
+    Ingredient? editingIngredient;
+
+    if (_recipe.editingMood && _recipe.ingredientIndexToEdite >= 0) {
+      editingIngredient = _recipe.ingredientToEdit;
+      nameController.text = editingIngredient!.name!;
+      quantityController.text = '${editingIngredient.quantity!}';
+      dropdownValue = editingIngredient.unit!;
+    }
 
     return Form(
       key: _form,
@@ -100,14 +108,25 @@ class _NewIngredientFormState extends State<NewIngredientForm> {
           ElevatedButton(
               onPressed: () {
                 if (_form.currentState!.validate()) {
-                  _recipe.addIngredients(Ingredient(
-                      name: nameController.text,
-                      quantity: double.parse(quantityController.text),
-                      unit: dropdownValue));
+                  if (_recipe.editingMood &&
+                      _recipe.ingredientIndexToEdite >= 0) {
+                    _recipe.editIngredient(Ingredient(
+                        name: nameController.text,
+                        quantity: double.parse(quantityController.text),
+                        unit: dropdownValue));
+                  } else {
+                    _recipe.addIngredients(Ingredient(
+                        name: nameController.text,
+                        quantity: double.parse(quantityController.text),
+                        unit: dropdownValue));
+                  }
+
                   Navigator.pop(context);
                 }
               },
-              child: const Text('Add ingredient'))
+              child: _recipe.editingMood && _recipe.ingredientIndexToEdite >= 0
+                  ? const Text('Update')
+                  : const Text('Add ingredient'))
         ],
       ),
     );

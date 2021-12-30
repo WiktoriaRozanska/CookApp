@@ -15,6 +15,10 @@ class _NewStepFormState extends State<NewStepForm> {
   Widget build(BuildContext context) {
     final _recipe = Provider.of<Recipe>(context);
 
+    if (_recipe.editingMood && _recipe.stepIndexToEdite >= 0) {
+      stepController.text = _recipe.stepDescriptionToEdite!;
+    }
+
     return Form(
       key: _form,
       child: Column(
@@ -37,11 +41,18 @@ class _NewStepFormState extends State<NewStepForm> {
           ElevatedButton(
               onPressed: () {
                 if (_form.currentState!.validate()) {
-                  _recipe.addStep(stepController.text);
+                  if (_recipe.editingMood && _recipe.stepIndexToEdite >= 0) {
+                    _recipe.editStep(stepController.text);
+                  } else {
+                    _recipe.addStep(stepController.text);
+                  }
+
                   Navigator.pop(context);
                 }
               },
-              child: const Text('Add step'))
+              child: _recipe.editingMood && _recipe.stepIndexToEdite >= 0
+                  ? const Text('Update')
+                  : const Text('Add step'))
         ],
       ),
     );

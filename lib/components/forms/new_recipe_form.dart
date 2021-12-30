@@ -37,6 +37,7 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
               TextFormField(
                   decoration: const InputDecoration(labelText: 'Title'),
                   textInputAction: TextInputAction.next,
+                  initialValue: _recipe.editingMood ? _recipe.title : null,
                   onChanged: (value) {
                     _recipe.addTitle(value);
                   },
@@ -50,6 +51,8 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                   decoration:
                       const InputDecoration(labelText: 'Description & Tips'),
                   maxLines: 3,
+                  initialValue:
+                      _recipe.editingMood ? _recipe.description : null,
                   onChanged: (value) {
                     _recipe.addDescription(value);
                   },
@@ -69,6 +72,8 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                           decoration:
                               const InputDecoration(labelText: 'Time (min)'),
                           keyboardType: TextInputType.number,
+                          initialValue:
+                              _recipe.editingMood ? '${_recipe.time}' : null,
                           textInputAction: TextInputAction.next,
                           onChanged: (value) {
                             _recipe.addTime(int.parse(value));
@@ -87,6 +92,9 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                       child: TextFormField(
                           decoration:
                               const InputDecoration(labelText: 'Cal/Serv'),
+                          initialValue: _recipe.editingMood
+                              ? '${_recipe.calPerServ}'
+                              : null,
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           onChanged: (value) {
@@ -106,6 +114,8 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                       child: TextFormField(
                           decoration:
                               const InputDecoration(labelText: 'Yields'),
+                          initialValue:
+                              _recipe.editingMood ? '${_recipe.yields}' : null,
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           onChanged: (value) {
@@ -142,6 +152,7 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                 padding: const EdgeInsets.only(left: 60, right: 60),
                 child: RaisedButton(
                   onPressed: () {
+                    _recipe.setIngredientIndexToEdit(-1);
                     Navigator.of(context).pushNamed(IngredientScreen.routeName);
                   },
                   child: const Text(
@@ -176,6 +187,7 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                 padding: const EdgeInsets.only(left: 60, right: 60),
                 child: RaisedButton(
                   onPressed: () {
+                    _recipe.setStepIndexToEdite(-1);
                     Navigator.of(context).pushNamed(StepScreen.routeName);
                   },
                   child: const Text(
@@ -278,13 +290,22 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                           if (_form.currentState!.validate() &&
                               listErrorMsg.isEmpty &&
                               stepsErrorMsg.isEmpty) {
-                            sendRecipe();
+                            if (_recipe.editingMood) {
+                              print('sent request to update recipe');
+                            } else {
+                              sendRecipe();
+                            }
                           }
                         },
-                        child: const Text(
-                          'Save my recipe',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                        child: _recipe.editingMood
+                            ? const Text(
+                                'Update recipe',
+                                style: TextStyle(color: Colors.white),
+                              )
+                            : const Text(
+                                'Save my recipe',
+                                style: TextStyle(color: Colors.white),
+                              ),
                         color: Theme.of(context).primaryColor,
                       ),
               ),

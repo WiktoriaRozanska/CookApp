@@ -3,6 +3,7 @@ import 'package:cook_app/components/lists/ingredient_list.dart';
 import 'package:cook_app/components/lists/step_list.dart';
 import 'package:cook_app/models/recipe_item.dart';
 import 'package:cook_app/screens/home.dart';
+import 'package:cook_app/screens/recepies/new_recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:provider/provider.dart';
@@ -54,8 +55,6 @@ class _RecipeScreenState extends State<RecipeScreen> {
                 setState(() {
                   recipeItem.isFavorite = !recipeItem.isFavorite;
                 });
-
-                print('Click');
               },
               child: Icon(
                 recipeItem.isFavorite
@@ -85,7 +84,8 @@ class _RecipeScreenState extends State<RecipeScreen> {
             if (recipeItem.owner)
               ElevatedButton(
                 onPressed: () {
-                  print('edit');
+                  _recipe.setRecipeItem(recipeItem, true);
+                  Navigator.of(context).pushNamed(NewRecipeScreen.routeName);
                 },
                 child: const Icon(
                   Icons.edit_outlined,

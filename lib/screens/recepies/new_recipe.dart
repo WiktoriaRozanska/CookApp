@@ -1,8 +1,12 @@
 import 'package:cook_app/components/forms/new_recipe_form.dart';
 import 'package:cook_app/components/image_picker_box.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:cook_app/providers/recipe.dart';
 
 class NewRecipeScreen extends StatefulWidget {
+  static const routeName = '/new_recipe';
+
   @override
   State<NewRecipeScreen> createState() => _NewRecipeScreenState();
 }
@@ -12,9 +16,13 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _recipe = Provider.of<Recipe>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New recepie'),
+        title: _recipe.editingMood
+            ? const Text('Editing recipe')
+            : const Text('New recepie'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Stack(

@@ -30,10 +30,68 @@ class Recipe with ChangeNotifier {
   List<dynamic> _allTags = [];
   List<dynamic> _selectedTags = [];
   WeekPlan? _weekPlan;
+  bool _editingMode = false;
+  int _stepIndexToEdite = -1;
+  int _ingredientIndexToEdit = -1;
 
   void addTitle(String title) {
     _recipe.title = title;
     notifyListeners();
+  }
+
+  void setRecipeItem(RecipeItem recipeItem, bool editingMood) {
+    _recipe = recipeItem;
+    _editingMode = editingMood;
+  }
+
+  void setStepIndexToEdite(int index) {
+    _stepIndexToEdite = index;
+  }
+
+  void setIngredientIndexToEdit(int index) {
+    _ingredientIndexToEdit = index;
+  }
+
+  String? get stepDescriptionToEdite {
+    if (_stepIndexToEdite < 0) {
+      return null;
+    }
+
+    return _recipe.steps.elementAt(_stepIndexToEdite);
+  }
+
+  int get stepIndexToEdite {
+    return _stepIndexToEdite;
+  }
+
+  int get ingredientIndexToEdite {
+    return _ingredientIndexToEdit;
+  }
+
+  int get stepLenght {
+    return _recipe.steps.length;
+  }
+
+  Ingredient? get ingredientToEdit {
+    if (_ingredientIndexToEdit < 0) {
+      return null;
+    }
+
+    return _recipe.ingredients.elementAt(_ingredientIndexToEdit);
+  }
+
+  void editStep(String newDescription) {
+    _recipe.steps[_stepIndexToEdite] = newDescription;
+    notifyListeners();
+  }
+
+  void editIngredient(Ingredient newIngredient) {
+    _recipe.ingredients[_ingredientIndexToEdit] = newIngredient;
+    notifyListeners();
+  }
+
+  bool get editingMood {
+    return _editingMode;
   }
 
   void addImage(XFile? img) {

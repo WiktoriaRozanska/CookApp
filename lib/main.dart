@@ -9,6 +9,7 @@ import 'package:cook_app/screens/recepies/filters.dart';
 import 'package:cook_app/screens/recepies/menu.dart';
 import 'package:cook_app/screens/recepies/menu/shopping_list.dart';
 import 'package:cook_app/screens/recepies/my_recipes.dart';
+import 'package:cook_app/screens/recepies/new_recipe.dart';
 import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
 import 'package:cook_app/screens/recepies/new_recipe/step.dart';
 import 'package:cook_app/screens/recepies/recipe.dart';
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
             MyRecipesScreen.routeName: (ctx) => MyRecipesScreen(),
             MenuScreen.routeName: (ctx) => MenuScreen(),
             ShoppingListScreen.routeName: (ctx) => ShoppingListScreen(),
+            NewRecipeScreen.routeName: (ctx) => NewRecipeScreen(),
           },
         ),
       ),

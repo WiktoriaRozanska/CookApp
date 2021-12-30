@@ -1,5 +1,8 @@
+import 'package:cook_app/screens/recepies/new_recipe/ingredient.dart';
 import 'package:flutter/material.dart';
 import '../../models/ingredient.dart';
+import 'package:provider/provider.dart';
+import 'package:cook_app/providers/recipe.dart';
 
 class IngredientList extends StatelessWidget {
   List<Ingredient> ingredients;
@@ -19,6 +22,8 @@ class IngredientList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _recipe = Provider.of<Recipe>(context);
+
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
@@ -35,6 +40,17 @@ class IngredientList extends StatelessWidget {
             ),
             title: Text('${ingredient.name}'),
             subtitle: Text('${ingredient.quantity} ${units[ingredient.unit]}'),
+            trailing: _recipe.editingMood
+                ? GestureDetector(
+                    child: const Icon(Icons.edit_outlined),
+                    onTap: () {
+                      _recipe.setIngredientIndexToEdit(
+                          ingredients.indexOf(ingredient));
+                      Navigator.of(context)
+                          .pushNamed(IngredientScreen.routeName);
+                    },
+                  )
+                : null,
           );
         }).toList(),
       ),
