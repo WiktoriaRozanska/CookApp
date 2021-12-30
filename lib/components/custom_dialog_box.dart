@@ -130,8 +130,7 @@ class CustomDialogBox extends StatelessWidget {
                               const Color(0xFF00BFA6),
                               const Color(0xFF047F6F)
                             ],
-                            tileMode: TileMode
-                                .repeated, // repeats the gradient over the canvas
+                            tileMode: TileMode.repeated,
                           ),
                         ),
                         onSelect: (values) {

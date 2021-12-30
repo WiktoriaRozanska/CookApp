@@ -255,7 +255,6 @@ class _NewRecipeFromState extends State<NewRecipeFrom> {
                       )
                     : RaisedButton(
                         onPressed: () {
-                          // Navigator.of(context).pushNamed(IngredientScreen.routeName);
                           if (_recipe.ingredients.length == 0) {
                             setState(() {
                               listErrorMsg = 'Please add some ingredients';

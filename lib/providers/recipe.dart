@@ -164,15 +164,6 @@ class Recipe with ChangeNotifier {
 
       File file = File(_image!.path);
 
-      //     var bytes = element.readAsBytes();
-      // request.files.add(new http.MultipartFile.fromBytes('file', await bytes));
-      var bytes = file.readAsBytes();
-
-      // var picture = http.MultipartFile.fromBytes(
-      //     'image', (await rootBundle.load(_image!.path)).buffer.asUint8List(),
-      //     filename: 'testImg.png');
-
-      // request.files.add(http.MultipartFile.fromBytes('image', await bytes));
       request.files
           .add(await http.MultipartFile.fromPath('image', _image!.path));
 
@@ -205,7 +196,6 @@ class Recipe with ChangeNotifier {
   }
 
   Future<void> addToFavorite(String recipeId) async {
-    // /v1/recipe/favorites
     var url = Uri.parse('http://10.0.2.2:3000/v1/recipe/favorites');
     await http.post(
       url,
@@ -218,7 +208,6 @@ class Recipe with ChangeNotifier {
   }
 
   Future<void> removeFromFavorite(String recipeId) async {
-    // /v1/recipe/favorites
     var url = Uri.parse('http://10.0.2.2:3000/v1/recipe/favorites/${recipeId}');
     await http.delete(
       url,

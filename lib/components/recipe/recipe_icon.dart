@@ -26,12 +26,6 @@ class RecipeIcon extends StatelessWidget {
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
-              // child: Image.network(
-              //     "https://domowe-wypieki.com/wp-content/uploads/2019/08/p%C3%B3lkule-413x247.jpg",
-              //     height: 200,
-              //     width: double.infinity,
-              //     fit: BoxFit.cover), //Image.asset -> locally
-
               child: recipeItem.imageUrl == null
                   ? SvgPicture.asset(
                       'assets/images/undraw_breakfast_psiw.svg',

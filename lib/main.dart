@@ -59,7 +59,6 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
             iconTheme: const IconThemeData(color: Colors.white),
             colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.teal),
-            // change the focus border color when the errorText is set
             errorColor: Colors.teal,
           ),
           home: authData.isAuth

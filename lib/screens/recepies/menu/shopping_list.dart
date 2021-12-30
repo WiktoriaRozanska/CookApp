@@ -26,7 +26,6 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
       try {
         shoppingListProvider!.fetchShoppingList().then((value) {
           setState(() {
-            // print(value);
             shoppingList = value;
             _isLoading = false;
           });

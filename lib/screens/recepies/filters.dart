@@ -2,7 +2,6 @@ import 'package:cook_app/components/error_box.dart';
 import 'package:cook_app/screens/recepies/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import 'package:cook_app/providers/tags.dart' as tags_provider;
 import 'package:cook_app/providers/recipe.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 
@@ -14,7 +13,6 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  // tags_provider.Tags? _tagsProvider;
   Recipe? _tagsProvider;
   bool _isLoading = true;
   var _isInit = true;

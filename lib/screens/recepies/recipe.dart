@@ -63,27 +63,38 @@ class _RecipeScreenState extends State<RecipeScreen> {
                     : Icons.favorite_border,
                 color: Colors.white,
               ),
-              // child: const Text(
-              //   'Add to favorite',
-              //   style: TextStyle(color: Colors.white),
-              // ),
               style: ElevatedButton.styleFrom(
                 shape: CircleBorder(),
               ),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () {
                 showCustomDialogBox(context,
                     title: 'Set day when you want to doing this recipe',
                     description: 'We have created custom dialog box',
                     recipeId: recipeItem.id);
               },
-              child: const Text(
-                'Add to my menu',
-                style: TextStyle(color: Colors.white),
+              child: const Icon(
+                Icons.calendar_today_outlined,
+                color: Colors.white,
               ),
-              color: Theme.of(context).primaryColor,
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+              ),
             ),
+            if (recipeItem.owner)
+              ElevatedButton(
+                onPressed: () {
+                  print('edit');
+                },
+                child: const Icon(
+                  Icons.edit_outlined,
+                  color: Colors.white,
+                ),
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                ),
+              ),
             if (recipeItem.owner)
               ElevatedButton(
                 onPressed: () {
@@ -95,10 +106,6 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   Icons.delete_outline,
                   color: Colors.white,
                 ),
-                // child: const Text(
-                //   'Add to favorite',
-                //   style: TextStyle(color: Colors.white),
-                // ),
                 style: ElevatedButton.styleFrom(
                   shape: CircleBorder(),
                 ),
