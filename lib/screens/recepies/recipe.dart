@@ -264,6 +264,9 @@ class _RecipeScreenState extends State<RecipeScreen> {
                         combine: ItemTagsCombine.withTextAfter);
                   },
                 ),
+                const SizedBox(
+                  height: 80,
+                ),
               ],
             )),
       ),

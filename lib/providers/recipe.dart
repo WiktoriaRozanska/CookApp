@@ -200,6 +200,7 @@ class Recipe with ChangeNotifier {
     _recipe.description = '';
     _recipe.ingredients = [];
     _recipe.steps = [];
+    _recipe.tags = [];
     _image = null;
     notifyListeners();
   }
