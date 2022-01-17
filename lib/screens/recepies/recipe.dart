@@ -4,6 +4,7 @@ import 'package:cook_app/components/lists/step_list.dart';
 import 'package:cook_app/models/recipe_item.dart';
 import 'package:cook_app/screens/home.dart';
 import 'package:cook_app/screens/recepies/new_recipe.dart';
+import 'package:cook_app/utils/alert_dialod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:provider/provider.dart';
@@ -97,10 +98,18 @@ class _RecipeScreenState extends State<RecipeScreen> {
               ),
             if (recipeItem.owner)
               ElevatedButton(
-                onPressed: () {
-                  _recipe.deleteRecipe(recipeItem.id);
-                  Navigator.of(context).pop();
-                  print('delete');
+                onPressed: () async {
+                  final action = await AlertDialogs.yesCancelDialog(
+                      context, 'Delete recipe', 'Are you sure?');
+                  // _recipe.deleteRecipe(recipeItem.id);
+                  // Navigator.of(context).pop();
+                  if (action == DialogsAction.yes) {
+                    _recipe.deleteRecipe(recipeItem.id);
+                    // Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .pushReplacementNamed(HomeScreen.routeName);
+                  }
+                  print('delete XD');
                 },
                 child: const Icon(
                   Icons.delete_outline,
